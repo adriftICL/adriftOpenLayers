@@ -1,0 +1,151 @@
+/* Customs styles */
+
+
+/* Custom container for full width */
+.container-full {
+	margin: 0 auto;
+	width: 100%;
+	height: 100%;
+}
+
+/* The loading wheel */
+.signal {
+	border: 5px solid #333;
+	border-radius: 30px;
+	height: 30px;
+	left: 50%;
+	margin: -15px 0 0 -15px;
+	opacity: 0;
+	position: absolute;
+	top: 50%;
+	width: 30px;
+	z-index: 9999;
+	animation: pulsate 1s ease-out;
+	animation-iteration-count: infinite;
+}
+
+@keyframes pulsate {
+	0% {
+		transform: scale(.1);
+		opacity: 0.0;
+	}
+	50% {
+		opacity: 1;
+	}
+	100% {
+		transform: scale(1.2);
+		opacity: 0;
+	}
+}
+
+/* colorbox for text & images */
+.textbox{
+	/* background: pink; */
+
+}
+
+/* keep aspect ratio */
+.mapClass {
+	width: 100vw; 
+	height: 40vw; /* 100/56.25 = 1.778 */
+	background: pink;
+	max-height: 100vh;
+	max-width: 200vh; /* 16/9 = 1.778 */
+	margin: auto;
+	position: absolute;
+	/*top:0;bottom:0; /* vertical center */
+	left:0;right:0; /* horizontal center */
+}
+
+/* Information boxes within the map */
+.infoBox {
+	top: 0;
+	position: absolute;
+	padding-left: 10px;
+	height: 8%;
+	z-index: 3; /* above the map */
+	background-color: rgba(100, 100, 100, 0.8);
+	color: white;
+}
+
+#dateBox 
+{	right: 0;
+	height:20px;
+	width:50%;
+	font-size: 0.9em;
+	margin-top: 5px;
+	margin-right: 5px;
+}
+
+#regionalZooms 
+{	left: 0;
+	height:20px;
+	width:20%;
+	font-size: 0.9em;
+	margin-top: 5px;
+	margin-left: 5px;
+}
+
+
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+	#dateBox {
+		width: 50%;
+		height: 30px;
+		font-size: 1.3em;
+	}
+
+	#regionalZooms {
+		height: 30px;
+		font-size: 1.3em;
+	}
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+		#dateBox {
+		width: 45%;
+		height: 30px;
+		font-size: 1.55em;
+	}
+
+	#regionalZooms {
+		height: 30px;
+		font-size: 1.55em;
+	}
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) { 
+	#dateBox {
+		width: 45%;
+		height: 38px;
+		font-size: 1.8em;
+	}
+
+	#regionalZooms {
+		height: 38px;
+		font-size: 1.8em;
+	}
+
+}
+
+
+/*
+    Colorbox Core Style:
+    The following CSS is consistent between example themes and should not be altered.
+    */
+    #colorbox, #cboxOverlay, #cboxWrapper{position:absolute; top:0; left:0; z-index:9999; overflow:hidden; -webkit-transform: translate3d(0,0,0);}
+    #cboxWrapper {max-width:none;}
+    #cboxOverlay{position:fixed; width:100%; height:100%;}
+    #cboxMiddleLeft, #cboxBottomLeft{clear:left;}
+    #cboxContent{position:relative;}
+    #cboxLoadedContent{overflow:auto; -webkit-overflow-scrolling: touch;}
+    #cboxTitle{margin:0;}
+    #cboxLoadingOverlay, #cboxLoadingGraphic{position:absolute; top:0; left:0; width:100%; height:100%;}
+    #cboxPrevious, #cboxNext, #cboxClose, #cboxSlideshow{cursor:pointer;}
+    .cboxPhoto{float:left; margin:auto; border:0; display:block; max-width:none; -ms-interpolation-mode:bicubic;}
+    .cboxIframe{width:100%; height:100%; display:block; border:0; padding:0; margin:0;}
+    #colorbox, #cboxContent, #cboxLoadedContent{box-sizing:content-box; -moz-box-sizing:content-box; -webkit-box-sizing:content-box;}
+
