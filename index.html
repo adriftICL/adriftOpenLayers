@@ -3,9 +3,13 @@
 <head>
   <link rel="stylesheet" href="lib/ol/ol.css" type="text/css">
   <link rel="stylesheet" href="lib/bootstrap-3.3.6-dist/css/bootstrap.min.css" type="text/css">  
+
   <link rel="stylesheet" href="css/style.css" type="text/css">  
   <title>Adrift</title>
 </head>
+
+
+
 
 <body>
   <div id="main" class="container container-full">
@@ -37,34 +41,54 @@
 
         <p><a class="inlineTextBox" href="#textbox">Inline TextBox</a></p>
 
+        <!-- Infoboxes -->
         <div style="display: none">
           <div id="textbox" class="textbox"><h3>Hello, testing a textbox</h3></div>
+
+          <!-- Forward Backward -->
+          <div id= "fwdbwdBox" class="textbox" ><a href="#forward"><h3>Choose the direction of your experiment</h3></a>
+            <div class="infoBoxContent">
+              <div id="backward" class="arrowBox" style="">
+                <img src="img/fwdbwd/bwdbutton.png" class="img-responsive" alt="Forward">
+                <h4 class="infoBoxCaption">Backward</h4> 
+                </div>
+                <div id="forward" class="arrowBox" style="">
+                  <img src="img/fwdbwd/fwdbutton.png" class="img-responsive" alt="Forward">
+                  <h4 class="infoBoxCaption">Forward</h4> 
+                  </div>
+                <div style="clear:both;"></div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- the main map div -->
+            <div id="mapClass" class="mapClass">
+
+              <div id="fwdbwd" class="infoBox"><a id="fwdbwdlink" href="#fwdbwdBox">Showing where plastic ends up</a></div>
+              <div id="dateBox" class="infoBox">Click a point on the ocean</div>
+            </div>
+          </div>
         </div>
 
-        <div id="mapClass" class="mapClass">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="lib/bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
+        <script src="lib/ol/ol.js" type="text/javascript"></script>
+        <script src="js/mapScript.js"></script>
+        <script src="lib/colorbox/jquery.colorbox-min.js"></script>
+        <link rel="stylesheet" href="css/colorbox.css" type="text/css"> 
 
 
-        <div id="regionalZooms" class="infoBox">Regional Zooms</div>
-        <div id="dateBox" class="infoBox">Click a point on the ocean</div>
-        </div>
+
+        <script>
+        /* colorbox script TESTING*/
+        $(document).ready(function(){
+          console.log("running the colorbox function");
+          $(".inlineTextBox").colorbox({inline:true, width:"40%"});
+          $("#fwdbwdlink").colorbox({inline:true, width:"40%"});
+        });
+
+        </script>
       </div>
-    </div>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="lib/bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
-    <script src="lib/ol/ol.js" type="text/javascript"></script>
-    <script src="js/mapScript.js"></script>
-    <script src="lib/colorbox/jquery.colorbox-min.js"></script>
-
-
-    <script>
-    /* colorbox script TESTING*/
-    $(document).ready(function(){
-      console.log("running the colorbox function");
-      $(".inlineTextBox").colorbox({inline:true, width:"40%"});
-    });
-
-    </script>
-  </div>
-</body>
-</html>
+    </body>
+    </html>
