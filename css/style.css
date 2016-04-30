@@ -9,19 +9,22 @@
 }
 
 /* The loading wheel */
+/*
 .signal {
 	border: 5px solid #333;
-	border-radius: 30px;
+	border-radius: 20px;
 	height: 30px;
+	width: 30px;
 	left: 50%;
 	margin: -15px 0 0 -15px;
 	opacity: 0;
 	position: absolute;
+	pointer-events: none;
 	top: 50%;
-	width: 30px;
 	z-index: 9999;
 	animation: pulsate 1s ease-out;
 	animation-iteration-count: infinite;
+	visibility: hidden;
 }
 
 @keyframes pulsate {
@@ -37,6 +40,8 @@
 		opacity: 0;
 	}
 }
+*/
+
 
 /* colorbox for text & images */
 .textbox{
@@ -57,7 +62,7 @@
 	width: 100vw; 
 	height: 40vw; /* 100/56.25 = 1.778 */
 	background: pink;
-	max-height: 100vh;
+	max-height: 100vh; 
 	max-width: 200vh; /* 16/9 = 1.778 */
 	margin: auto;
 	position: absolute;
@@ -67,19 +72,28 @@
 
 /* Information boxes within the map */
 .infoBox {
-	top: 0;
 	position: absolute;
 	padding-left: 10px;
-	height: 8%;
 	z-index: 3; /* above the map */
 	background-color: rgba(100, 100, 100, 0.8);
 	color: white;
 }
 
-.infoBoxContent {
-	/*
-	margin-left: auto;
-	margin-right: auto; */
+#warningBox{
+	bottom: 0;
+	width: 100%;
+	height: 25px;
+	background-color: rgba(234, 44, 12, 0.8);
+	text-align: center;
+	font-size: 17px;
+	display: none;
+}
+
+.infoBox > a {
+	color: white;
+}
+
+.infoBoxPopUp {
 	text-align: center;
 }
 
@@ -87,8 +101,10 @@
 	text-align: center;
 }
 
+
 #dateBox 
-{	right: 0;
+{	top: 0;
+	right: 0;
 	height:20px;
 	width:50%;
 	font-size: 0.9em;
@@ -97,7 +113,9 @@
 }
 
 #fwdbwd 
-{	left: 0;
+{	
+	top: 0;
+	left: 0;
 	height:20px;
 	width:25%;
 	font-size: 0.9em;
@@ -119,6 +137,11 @@
 		height: 30px;
 		font-size: 1.3em;
 	}
+
+	#warningBox {
+		height: 27px;
+		font-size: 1.25em;
+	}
 }
 
 /* Medium devices (desktops, 992px and up) */
@@ -133,6 +156,7 @@
 		height: 30px;
 		font-size: 1.55em;
 	}
+
 }
 
 /* Large devices (large desktops, 1200px and up) */
@@ -148,6 +172,97 @@
 		font-size: 1.8em;
 	}
 
+	#warningBox {
+		height: 38px;
+		line-height: 38px;
+		font-size: 1.5em;
+	}
+
+}
+
+/* 4K Devices */
+@media (min-width: 3000px) { 
+
+	.mapClass {
+		width: 100vw; 
+		height: 50vw; /* 100/56.25 = 1.778 */
+		margin: auto;
+		position: absolute;
+		/*top:0;bottom:0; /* vertical center */
+		left:0;right:0; /* horizontal center */
+		}
+
+	#warningBox {
+		height: 130px;
+		line-height: 130px;
+		font-size: 5em;
+		}
+	}
+
+
+
+/* The loading bars */
+.spinner {
+	position: absolute;
+	top: 25%;
+	left: 50%;
+  margin: 100px auto;
+  width: 50px;
+  height: 40px;
+  text-align: center;
+  font-size: 10px;
+  z-index: 9999;
+  pointer-events: none; /* to make the loading bar unclickable */
+  visibility: hidden;
+  /* for IE11 */
+  filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='your_transparent.png', sizingMethod='scale');
+	background: none !important;
+}
+
+.spinner > div {
+  background-color: white;
+  opacity: 0.8;
+  height: 100%;
+  width: 6px;
+  display: inline-block;
+  
+  -webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;
+  animation: sk-stretchdelay 1.2s infinite ease-in-out;
+}
+
+.spinner .rect2 {
+  -webkit-animation-delay: -1.1s;
+  animation-delay: -1.1s;
+}
+
+.spinner .rect3 {
+  -webkit-animation-delay: -1.0s;
+  animation-delay: -1.0s;
+}
+
+.spinner .rect4 {
+  -webkit-animation-delay: -0.9s;
+  animation-delay: -0.9s;
+}
+
+.spinner .rect5 {
+  -webkit-animation-delay: -0.8s;
+  animation-delay: -0.8s;
+}
+
+@-webkit-keyframes sk-stretchdelay {
+  0%, 40%, 100% { -webkit-transform: scaleY(0.4) }  
+  20% { -webkit-transform: scaleY(1.0) }
+}
+
+@keyframes sk-stretchdelay {
+  0%, 40%, 100% { 
+    transform: scaleY(0.4);
+    -webkit-transform: scaleY(0.4);
+  }  20% { 
+    transform: scaleY(1.0);
+    -webkit-transform: scaleY(1.0);
+  }
 }
 
 

@@ -5,13 +5,14 @@
 function Map() {
 	console.log("Running the map")
 
-  this.WEIGHT_FACTOR = 100
+  this.WEIGHT_FACTOR = 100;
   this.timer = null;
   this.landpoints = null; //array to store landpoint booles
   this.direction = 'bwd';
 
   this.clickLon = null;
   this.clickLat = null;
+
 
   //Create the marker
   this.markerOptions = {
@@ -31,6 +32,9 @@ function Map() {
         })
       })
   });
+
+  // z-index set to 2 to make sure marker is always above heatmap
+  this.markerLayer.setZIndex(2);
 
 
   this.mapOptions = {
@@ -158,32 +162,24 @@ Map.prototype.onClick = function(clickEvent) {
   console.log("running onClick");
   console.log(clickEvent);
     //Check that it's not already running
+    /*
     if (this.timer !== null){ //If so exit
       return;
-    }
-
-    //Clear layer
-    this.markerLayer.getSource().clear();
-    //Set marker position
-    this.marker.getGeometry().setCoordinates(clickEvent['coordinate']);
+    }*/
+    
 
 
-
+    //Clear marker layer and set new marker
+    //this.markerLayer.getSource().clear();
+    //this.marker.getGeometry().setCoordinates(clickEvent['coordinate']);
     
     //convert the projection of the coordinates
-    console.log(clickEvent.coordinate);
     var lonlat = ol.proj.transform(clickEvent.coordinate, "EPSG:3857", "EPSG:4326");
     this.clickLon = Math.round(10 * lonlat[0]) / 10;
     this.clickLat = Math.round(10 * lonlat[1]) / 10;
-    //console.log(lat);
-    //console.log(lon);   
-
-
 
     var dataIndex = this.getDataIndex(this.clickLon, this.clickLat);
-
     this.checkLandPoint(dataIndex, $.proxy(this.run, this));
-
 };
 
 // the main function which acquires fetches data and runs heatmap
@@ -192,49 +188,61 @@ Map.prototype.run = function(landpointValue){
     //Check correct landpoint value
     if (landpointValue == -2){
       console.log("error fetching landpont file and value");
+      this.showWarning('Sorry, we were unable to retrieve data for that location', 5000);
       return;
     } else if (landpointValue == 1) {
-      alert('point was on land, please choose a point on sea');
+      //alert('point was on land, please choose a point on sea');
+      this.showWarning('You clicked on land, please click on the ocean', 4000);
       return;
     } else if (landpointValue == -1){
-      alert('Sorry, we do not have data for this point');
+      this.showWarning('Sorry we have no data for that ocean area', 4000);
       return;
     }
-
     
-    //Add the marker
+    //start the loading icon
+    $(".spinner").css("visibility","visible");
+
+    //Make the Marker Visible
+    this.markerLayer.getSource().clear();
+    this.marker.getGeometry().setCoordinates(ol.proj.transform([this.clickLon, this.clickLat],"EPSG:4326","EPSG:3857"));
     this.markerLayer.getSource().addFeature(this.marker);
-    //set the layer visible
     this.markerLayer.setVisible(true);
 
+    //clear any existing warning messages
+    this.clearWarning();
 
-    //Reset raw Heatmap Data
+    //Reset Heatmap in case it is presently running
+    this.timer == null;
+    this.heatMap.setSource(null);
+    this.heatMapSource.clear();
+
     this.heatMapData = [];
-
-    //TESTING RETURN EARLY
-    console.log(this.clickLat);
-
-    //QUERY LOCAL FILE BECAUSE OF Access-Control-Allow-Origin
-    //CORRECT CODE IS COMMENTED BELLOW
-    //Local file query
+    window.clearInterval(this.timer);
 
     //Get the index of the csv file to fetch
     var dataIndex = this.getDataIndex(this.clickLon, this.clickLat);
     console.log(dataIndex);
 
+    //abort any existing request
+    if (this.req != null){
+      console.log("aborting previous request");
+      this.req.abort();
+    }
 
-
-    return;
     //TODO: backwardsQueries
 
     //Construct the query
     var query = 'https://swift.rc.nectar.org.au/v1/AUTH_24efaa1ca77941c18519133744a83574/globalCsvMonthly/Global_index'
       + String(dataIndex) + '_startsinJan.csv'
 
-    console.log("before the get function");
-    $.get(query, $.proxy(function(data) {
+      console.log("before the get function");
+      this.req = $.get(query, $.proxy(function(data) {
       console.log("got data");
       this.parseData(data);
+
+      //turn off loading signal
+      $(".spinner").css("visibility","hidden");
+
       console.log("starting the counter");
       var counter = 0;
       this.timer = window.setInterval($.proxy(function() {
@@ -248,10 +256,10 @@ Map.prototype.run = function(landpointValue){
           this.timer = null;
         }
       }, this), 125);
-    }, this)).done(function() {
-      console.log( "second success" );
-    }).fail($.proxy(function(){
+    }, this))
+    .fail($.proxy(function(){
       console.log("error in the get function");
+      //TODO:Display Error Message
     }));
     //End local file query
 
@@ -344,7 +352,7 @@ Map.prototype.parseData = function(filecontent) {
     //If we have data for this year/month
     //Clear, update and display
     if (this.heatMapData[year] && this.heatMapData[year][month]) {
-      console.log("UpdateHeat map at year=" + year + " month=" + month);
+      //console.log("UpdateHeat map at year=" + year + " month=" + month);
 
         //Cleanup heatmap
         this.heatMap.setSource(null);
@@ -364,7 +372,14 @@ Map.prototype.parseData = function(filecontent) {
       }
     };
 
+    Map.prototype.showWarning = function(message, milliseconds){
+      $('#warningBox').text(message);
+      $('#warningBox').finish().fadeIn("fast").delay(milliseconds).fadeOut("slow");
+    }
 
+    Map.prototype.clearWarning = function(){
+      $('#warningBox').finish().fadeOut("fast");
+    }
 
 //create map
 var themap = new Map();
@@ -374,7 +389,12 @@ var themap = new Map();
 //testing a simple ajax call
 function doFunction(){
 
-  themap.markerLayer.setVisible(false);
+  //window.location.href = "#blahblah";
+  console.log("in the do function");
+
+  themap.clearWarning();
+
+
   /*
   console.log("doing the do funciton");
   $.ajax({

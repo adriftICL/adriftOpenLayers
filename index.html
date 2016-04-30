@@ -47,7 +47,7 @@
 
           <!-- Forward Backward -->
           <div id= "fwdbwdBox" class="textbox" ><a href="#forward"><h3>Choose the direction of your experiment</h3></a>
-            <div class="infoBoxContent">
+            <div class="infoBoxPopUp">
               <div id="backward" class="arrowBox" style="">
                 <img src="img/fwdbwd/bwdbutton.png" class="img-responsive" alt="Forward">
                 <h4 class="infoBoxCaption">Backward</h4> 
@@ -58,12 +58,23 @@
                   </div>
                 <div style="clear:both;"></div>
                 </div>
-
               </div>
             </div>
 
             <!-- the main map div -->
             <div id="mapClass" class="mapClass">
+            <!-- The loading bars -->
+              <div class="spinner">
+                <div class="rect1"></div>
+                <div class="rect2"></div>
+                <div class="rect3"></div>
+                <div class="rect4"></div>
+                <div class="rect5"></div>
+              </div>
+
+              <div id="warningBox" class="infoBox">
+                  Please click a point in the ocean
+              </div>
 
               <div id="fwdbwd" class="infoBox"><a id="fwdbwdlink" href="#fwdbwdBox">Showing where plastic ends up</a></div>
               <div id="dateBox" class="infoBox">Click a point on the ocean</div>
