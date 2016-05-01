@@ -159,19 +159,6 @@ Map.prototype.checkLandPoint = function(index, callback){
 
 
 Map.prototype.onClick = function(clickEvent) {
-  console.log("running onClick");
-  console.log(clickEvent);
-    //Check that it's not already running
-    /*
-    if (this.timer !== null){ //If so exit
-      return;
-    }*/
-    
-
-
-    //Clear marker layer and set new marker
-    //this.markerLayer.getSource().clear();
-    //this.marker.getGeometry().setCoordinates(clickEvent['coordinate']);
     
     //convert the projection of the coordinates
     var lonlat = ol.proj.transform(clickEvent.coordinate, "EPSG:3857", "EPSG:4326");
@@ -198,9 +185,8 @@ Map.prototype.run = function(landpointValue){
       this.showWarning('Sorry we have no data for that ocean area', 4000);
       return;
     }
-    
-    //start the loading icon
-    $(".spinner").css("visibility","visible");
+    //clear any existing warning messages
+    this.clearWarning();
 
     //Make the Marker Visible
     this.markerLayer.getSource().clear();
@@ -208,8 +194,13 @@ Map.prototype.run = function(landpointValue){
     this.markerLayer.getSource().addFeature(this.marker);
     this.markerLayer.setVisible(true);
 
-    //clear any existing warning messages
-    this.clearWarning();
+    //abort any existing request
+    if (this.req != null){
+      this.req.abort();
+    }
+    
+    //start the loading icon
+    $(".spinner").css("visibility","visible");
 
     //Reset Heatmap in case it is presently running
     this.timer == null;
@@ -221,35 +212,24 @@ Map.prototype.run = function(landpointValue){
 
     //Get the index of the csv file to fetch
     var dataIndex = this.getDataIndex(this.clickLon, this.clickLat);
-    console.log(dataIndex);
 
-    //abort any existing request
-    if (this.req != null){
-      console.log("aborting previous request");
-      this.req.abort();
-    }
+
 
     //TODO: backwardsQueries
 
     //Construct the query
     var query = 'https://swift.rc.nectar.org.au/v1/AUTH_24efaa1ca77941c18519133744a83574/globalCsvMonthly/Global_index'
       + String(dataIndex) + '_startsinJan.csv'
-
-      console.log("before the get function");
       this.req = $.get(query, $.proxy(function(data) {
       console.log("got data");
       this.parseData(data);
-
       //turn off loading signal
       $(".spinner").css("visibility","hidden");
-
-      console.log("starting the counter");
       var counter = 0;
       this.timer = window.setInterval($.proxy(function() {
         var y = Math.floor(counter / 12);
         var m = counter % 12;
         this.updateHeatMap(y, m);
-
         counter++;
         if (counter > 12 * 10) {
           window.clearInterval(this.timer);
@@ -257,10 +237,15 @@ Map.prototype.run = function(landpointValue){
         }
       }, this), 125);
     }, this))
-    .fail($.proxy(function(){
-      console.log("error in the get function");
-      //TODO:Display Error Message
-    }));
+    .fail($.proxy(function(result){
+      $(".spinner").css("visibility","hidden");
+      /* Status 0 would be called if query is aborted
+       * only show alert message if fail resulted in fetching error (status 404)
+      */
+      if (result.status != 0){
+        this.showWarning("Sorry, we have no data for that ocean area",5000);
+      }
+    }, this));
     //End local file query
 
     /*
