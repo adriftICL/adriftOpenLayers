@@ -3,39 +3,39 @@
 //The Main Map Class
 
 function Map() {
-	console.log("Running the map")
-
-  this.WEIGHT_FACTOR = 100;
+  this.WEIGHT_FACTOR = 200;
   this.timer = null;
-  this.landpoints = null; //array to store landpoint booles
-  this.direction = 'bwd';
-
+  this.landpoints = null; //array to store landpoint bools
+  this.direction = 'fwd';
+  this.startMon = 'jan';
   this.clickLon = null;
   this.clickLat = null;
-
+  this.markerLon = null;
+  this.markerLat = null;
+  this.center = null;
+  this.heatMapData = [];
 
   //Create the marker
   this.markerOptions = {
-      name: 'marker',
-      type: 'icon',
-      geometry: new ol.geom.Point(ol.proj.fromLonLat([8, 22]))
+    name: 'marker',
+    type: 'icon',
+    geometry: new ol.geom.Point(ol.proj.fromLonLat([8, 22]))
   };
   this.marker = new ol.Feature(this.markerOptions);
   this.markerLayer = new ol.layer.Vector({
-      source: new ol.source.Vector({
-          features: []
-      }),
-      style: new ol.style.Style({
-        image: new ol.style.Icon({
+    source: new ol.source.Vector({
+      features: []
+    }),
+    style: new ol.style.Style({
+      image: new ol.style.Icon({
         anchor: [0.5, 1],
         src: 'img/MarkerDuckie.png'
-        })
       })
+    })
   });
 
   // z-index set to 2 to make sure marker is always above heatmap
   this.markerLayer.setZIndex(2);
-
 
   this.mapOptions = {
     target: 'mapClass',
@@ -61,45 +61,27 @@ function Map() {
   }
 
   this.map = new ol.Map(this.mapOptions);
-
   this.extent = [-70, 55 , 60, -55];
   this.extent = ol.extent.applyTransform(this.extent, ol.proj.getTransform("EPSG:4326", "EPSG:3857")); 
   this.map.getView().fit(this.extent, this.map.getSize());
 
 
-//Heatmap Parts
 
-var heatMapPoints  = [];
+  this.heatMapSource = new ol.source.Vector({});
 
-var lon1 = -29.355;
-var lat1 =  48.392;
+  this.heatMap = new ol.layer.Heatmap({
+    weight: "weight",
+    source: this.heatMapSource,
+    visible: true,
+    supdateWhileAnimating: true,
+    updateWhileInteracting: true,
+  });
 
-/*
-  heatMapPoints.push(new ol.Feature({
-    geometry: new ol.geom.Point(ol.proj.fromLonLat([lon1, lat1])),
-    weight: 0.8
-  }));
-
-  this.heatMapSource = new ol.source.Vector({
-    features: heatMapPoints,
-  }) */
-
-this.heatMapSource = new ol.source.Vector({});
-
-this.heatMap = new ol.layer.Heatmap({
-  weight: "weight",
-  source: this.heatMapSource,
-  visible: true,
-  supdateWhileAnimating: true,
-  updateWhileInteracting: true,
-});
-
-  //add layer to the map
+  //add heatmap layer to the map
   this.map.addLayer(this.heatMap);
-  console.log("heatmap added");
 
-  //heatMap.changed();
-
+  //save the centre of the map (longitude only)
+  this.saveCenter();
 
   //map events
   //map panned
@@ -115,10 +97,14 @@ this.heatMap = new ol.layer.Heatmap({
   //map direction
   $('#backward').click(function(){
     console.log("backward clicked");
+    this.direction = 'bwd';
+    $(window).colorbox.close();
   })
 
   $('#forward').click(function(){
     console.log("forward clicked");
+    this.direction = 'fwd';
+    $(window).colorbox.close();
   })
 }
 
@@ -132,13 +118,12 @@ Map.prototype.getDataIndex = function(lon, lat){
     lon += 360;
   }
   return (((lat-1) * 360) + lon);
- }
+}
 
 
 //check if a point is on land
 Map.prototype.checkLandPoint = function(index, callback){
   var saveLandpoints = function(data){
-    console.log("gotlandpoints data");
     this.landpoints = data.split(',');
     var landpointValue = parseInt(this.landpoints[index]);
     callback(landpointValue);
@@ -147,31 +132,28 @@ Map.prototype.checkLandPoint = function(index, callback){
   if (this.landpoints == null) {
     $.get("data/landpoints.csv").success($.proxy(saveLandpoints,this))
     .error($.proxy(function(result){
-        console.log("Error fetching landpoints.csv file");
+      console.log("Error fetching landpoints.csv file");
         callback(-2); //use -2 for error code as -1 is already taken
-     }, this));
+      }, this));
   } else {
-    //console.log(callback);
     var landpointValue = parseInt(this.landpoints[index]);
     callback(landpointValue);
   } 
 }
 
-
 Map.prototype.onClick = function(clickEvent) {
-    
+    console.log(clickEvent);
     //convert the projection of the coordinates
     var lonlat = ol.proj.transform(clickEvent.coordinate, "EPSG:3857", "EPSG:4326");
-    this.clickLon = Math.round(10 * lonlat[0]) / 10;
-    this.clickLat = Math.round(10 * lonlat[1]) / 10;
+    this.clickLon = oneDecimalPlace(lonlat[0]);
+    this.clickLat = oneDecimalPlace(lonlat[1]);
 
     var dataIndex = this.getDataIndex(this.clickLon, this.clickLat);
     this.checkLandPoint(dataIndex, $.proxy(this.run, this));
-};
+  };
 
 // the main function which acquires fetches data and runs heatmap
 Map.prototype.run = function(landpointValue){
-    console.log("landpoint value is: " + landpointValue);
     //Check correct landpoint value
     if (landpointValue == -2){
       console.log("error fetching landpont file and value");
@@ -194,11 +176,16 @@ Map.prototype.run = function(landpointValue){
     this.markerLayer.getSource().addFeature(this.marker);
     this.markerLayer.setVisible(true);
 
+    this.markerLon = this.clickLon;
+    this.markerLat = this.clickLat;
+
     //abort any existing request
     if (this.req != null){
       this.req.abort();
     }
     
+    this.setURL();
+
     //start the loading icon
     $(".spinner").css("visibility","visible");
 
@@ -206,21 +193,19 @@ Map.prototype.run = function(landpointValue){
     this.timer == null;
     this.heatMap.setSource(null);
     this.heatMapSource.clear();
-
     this.heatMapData = [];
     window.clearInterval(this.timer);
 
     //Get the index of the csv file to fetch
     var dataIndex = this.getDataIndex(this.clickLon, this.clickLat);
 
-
-
     //TODO: backwardsQueries
 
     //Construct the query
     var query = 'https://swift.rc.nectar.org.au/v1/AUTH_24efaa1ca77941c18519133744a83574/globalCsvMonthly/Global_index'
-      + String(dataIndex) + '_startsinJan.csv'
-      this.req = $.get(query, $.proxy(function(data) {
+    + String(dataIndex) + '_startsinJan.csv'
+
+    this.req = $.get(query, $.proxy(function(data) {
       console.log("got data");
       this.parseData(data);
       //turn off loading signal
@@ -241,38 +226,18 @@ Map.prototype.run = function(landpointValue){
       $(".spinner").css("visibility","hidden");
       /* Status 0 would be called if query is aborted
        * only show alert message if fail resulted in fetching error (status 404)
-      */
-      if (result.status != 0){
+       */
+       if (result.status != 0){
         this.showWarning("Sorry, we have no data for that ocean area",5000);
       }
     }, this));
-    //End local file query
+  }
 
-    /*
-    //Request Rest API
-    $.getJSON(this.apiUrl
-        + "?lat="
-        + clickEvent['coordinate'][1]
-        + "&lng="
-        + clickEvent['coordinate'][0]
-        + "&startmon="
-        + this.startMonth,
-        $.proxy(function(data) { // On API response
-            if (data && data.substring(0, 5) == "https") {
-                $.get(data, $.proxy(this.parseData, this))
-            }
-        }, this));
-// */
-}
-
-
-//When the center is updated
-//Stay on the middle latitude
-Map.prototype.centerUpdate = function(event) {
-  console.log("doing a centre update thing");
-  var oldCenter = event['oldValue'];
-  var newCenter = this.map.getView().getCenter();
-
+  //When the center is updated
+  //Stay on the middle latitude
+  Map.prototype.centerUpdate = function(event) {
+    var oldCenter = event['oldValue'];
+    var newCenter = this.map.getView().getCenter();
     //If the delta on latitude if very little: do nothing
     //This prevents the call stack to explode
     if (Math.abs(newCenter[1] - oldCenter[1]) < 1e-4) {
@@ -280,8 +245,23 @@ Map.prototype.centerUpdate = function(event) {
     }
     newCenter[1] = oldCenter[1];
     this.map.getView().setCenter(newCenter);
+    this.saveCenter();
+    //update url only if ocean point has been clicked
+    if (this.markerLat != null) {
+      this.setURL();
+    }
     return this;
   };
+
+  //Saves the center point of the map (longitude only)
+  Map.prototype.saveCenter = function(){
+    var cent = this.map.getView().getCenter();
+    this.center = oneDecimalPlace(ol.proj.transform(cent, "EPSG:3857", "EPSG:4326")[0]);
+  }
+
+  Map.prototype.setCenter = function(centerLon){
+    this.map.getView().setCenter(ol.proj.transform([centerLon, 0], "EPSG:4326", "EPSG:3857"))
+  }
 
   Map.prototype.createHeatMapPoint = function(long, lat, data) {
     return new ol.Feature({
@@ -330,46 +310,87 @@ Map.prototype.parseData = function(filecontent) {
             this.heatMapData[heatPointRaw.year][heatPointRaw.month].push(heatPoint);
           }
         }
-        console.log("finished parsing the data");
       };
 
-    Map.prototype.updateHeatMap = function(year, month) {
-    //If we have data for this year/month
-    //Clear, update and display
-    if (this.heatMapData[year] && this.heatMapData[year][month]) {
-      //console.log("UpdateHeat map at year=" + year + " month=" + month);
+Map.prototype.updateHeatMap = function(year, month) {
+  //If we have data for this year/month
+  //Clear, update and display
+  if (this.heatMapData[year] && this.heatMapData[year][month]) {
+  //console.log("UpdateHeat map at year=" + year + " month=" + month);
 
-        //Cleanup heatmap
-        this.heatMap.setSource(null);
-        this.heatMapSource.clear();
+    //Cleanup heatmap
+    this.heatMap.setSource(null);
+    this.heatMapSource.clear();
 
-        //console.log(this.heatMapData[year][month]);
-        this.heatMapSource.addFeatures(this.heatMapData[year][month]);
+    //console.log(this.heatMapData[year][month]);
+    this.heatMapSource.addFeatures(this.heatMapData[year][month]);
 
-        //Update Heatmap
-        this.heatMap.setSource(this.heatMapSource);
-        this.heatMap.setVisible(true);
-        this.heatMap.setExtent(undefined);
-        this.heatMap.changed();
+    //Update Heatmap
+    this.heatMap.setSource(this.heatMapSource);
+    this.heatMap.setVisible(true);
+    this.heatMap.setExtent(undefined);
+    this.heatMap.changed();
 
-        //update text in the dateBox
-        $('#dateBox').text('Marine Plastics after ' + year + ' years and ' + month + ' months');
-      }
-    };
+    //update text in the dateBox
+    $('#dateBox').text('Marine Plastics after ' + year + ' years and ' + month + ' months');
+  }
+};
 
-    Map.prototype.showWarning = function(message, milliseconds){
-      $('#warningBox').text(message);
-      $('#warningBox').finish().fadeIn("fast").delay(milliseconds).fadeOut("slow");
+Map.prototype.setURL = function() {
+  var url = window.location.href.split('?')[0];
+  url += '?lat=' + this.markerLat + '&lng=' + this.markerLon
+    + '&center=' + this.center + '&startmon=' + this.startMon + '&direction=' + this.direction;
+  history.pushState({}, null, url);
+}
+
+Map.prototype.checkURL = function(){
+  var vars = getUrlVars();
+  console.log(vars);
+  var variables = ['lon', 'lat', 'center', 'startmon', 'direction' ];
+  //check all required parameters exist 
+  if ($.isEmptyObject(vars)){
+    return;
+  }
+  for (i=0; i < variables.length; i++){
+    if (vars.hasOwnProperty(variables[i]) == null){
+      return;
     }
+  }
+  //set direction
+  if (vars.direction == 'fwd' || vars.direction == 'bwd') {
+    this.direction = vars.direction;
+  }
+  this.setCenter(Number(vars.center));
+  //simulate a click
+  var click = {coordinate: ol.proj.transform([Number(vars.lng), Number(vars.lat)], "EPSG:4326", "EPSG:3857")};
+  this.onClick(click);
 
-    Map.prototype.clearWarning = function(){
-      $('#warningBox').finish().fadeOut("fast");
-    }
+}
+
+Map.prototype.showWarning = function(message, milliseconds){
+  $('#warningBox').text(message);
+  $('#warningBox').finish().fadeIn("fast").delay(milliseconds).fadeOut("slow");
+}
+
+Map.prototype.clearWarning = function(){
+  $('#warningBox').finish().fadeOut("fast");
+}
+
+function oneDecimalPlace(x) {
+  return Math.round(x*10)/10;
+}
+
+function getUrlVars() {
+  var vars = {};
+  var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+  vars[key] = value;
+  });
+  return vars;
+}
 
 //create map
 var themap = new Map();
-
-
+themap.checkURL();
 
 //testing a simple ajax call
 function doFunction(){
@@ -377,32 +398,5 @@ function doFunction(){
   //window.location.href = "#blahblah";
   console.log("in the do function");
 
-  themap.clearWarning();
 
-
-  /*
-  console.log("doing the do funciton");
-  $.ajax({
-    url: 'http://www.doc.ic.ac.uk/~ksm113/adrift/js/navigation.js',
-    dataType: 'jsonp',
-    success: function(result){
-      console.log("the result was successful");
-    },
-    error: function(result, textStatus, errorThrown){
-      console.log("error in result");
-      console.log(result);
-      console.log(textStatus);
-      console.log(errorThrown);
-    } 
-  }) */
-
-
-//$('#dateBox>h3').text("Changed Text");
-
-/*
-  $.get('https://swift.rc.nectar.org.au/v1/AUTH_24efaa1ca77941c18519133744a83574/globalCsvMonthly/Global_index18595_startsinJan.csv',
-    function(result){
-      console.log(result);
-    });
-  */
 }

@@ -24,9 +24,9 @@
           </button>
           <a class="navbar-brand">Adrift</a>
         </div>
-        <div id="navbar" class="navbar-collapse collapse">
+        <div id="navbar" class="navbar-collapse collapse">\
           <ul class="nav navbar-nav">
-            <li id="home-nav" class="active"><a href="#">Home</a></li>
+            <li id="home-nav" class="active"><a href="">Home</a></li>
             <li id="how-nav"><a href="#/howdoweknow">How do we know?</a></li>
             <li id="faq-nav"><a href="#/faq">FAQ</a></li>
             <li id="team-nav"><a href="#/team">Team</a></li>
@@ -168,9 +168,11 @@
             <div id="team-content" class="col-md-8 col-lg-6">
                 <h2>Team members</h2>
                 <div class="team_member col-md-4">
+                    <img src="img/erik.jpg" class="img-responsive" alt="erik">
                     <b>Dr Erik van Sebille</b> is a physical oceanographer at Imperial College London, who studies the large-scale circulation of the ocean. He is particularly interested in the connection between ocean basins and the processes that determine how much water 'leaks' from one ocean basin into another. These connections are important for global climate and for the pathways of both marine organisms and debris. For more information, see <a target="_blank" href="http://www.erik.vansebille.com"> www.erik.vansebille.com</a>.
                 </div>
                 <div class="team_member col-md-4">
+                    <img src="img/david.jpg" class="img-responsive" alt="david">
                     <b>David Fuchs</b> is a solutions architect with more than thirteen years of experience in software ranging from voice over IP to applications of machine learning techniques to large data sets. David brings combined experience in both engineering and science and is currently interested in software applications to large amount of data in general and climate data in particular.
                 </div>
             </div>
@@ -205,12 +207,11 @@
     </div>
 
 
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="lib/bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
     <script src="lib/ol/ol.js" type="text/javascript"></script>
-    <script src="js/mapScript.js"></script>
     <script src="js/navigation.js"></script>
+    <script src="js/mapScript.js"></script>
     <script src="lib/colorbox/jquery.colorbox-min.js"></script>
     <link rel="stylesheet" href="css/colorbox.css" type="text/css"> 
 
@@ -221,7 +222,7 @@
       $(document).ready(function(){
         console.log("running the colorbox function");
         $(".inlineTextBox").colorbox({inline:true, width:"40%"});
-        $("#fwdbwdlink").colorbox({inline:true, width:"40%"});
+        $("#fwdbwdlink").colorbox({inline:true, width:"40%",});
       });
 
     </script>

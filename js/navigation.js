@@ -36,5 +36,18 @@ $(document).ready(function() {
         $('#plastic-container').css('display', 'block');
     });
 
+    /* Check the URL and direct accordingly */
+    var page = window.location.hash;
+    if (page.length > 0){
+        if (page == '#/howdoweknow'){
+            $('#how-nav').trigger('click');
+        } else if (page == '#/faq') {
+            $('#faq-nav').trigger('click');
+        } else if (page == '#/team') {
+            $('#team-nav').trigger('click');
+        }  else if (page == '#/plastic') {
+            $('#plastic-nav').trigger('click');
+        }
+    }
 
 })

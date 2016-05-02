@@ -1,52 +1,10 @@
 /* Customs styles */
 
-
 /* Custom container for full width */
 .container-full {
 	margin: 0 auto;
 	width: 100%;
 	height: 100%;
-}
-
-/* The loading wheel */
-/*
-.signal {
-	border: 5px solid #333;
-	border-radius: 20px;
-	height: 30px;
-	width: 30px;
-	left: 50%;
-	margin: -15px 0 0 -15px;
-	opacity: 0;
-	position: absolute;
-	pointer-events: none;
-	top: 50%;
-	z-index: 9999;
-	animation: pulsate 1s ease-out;
-	animation-iteration-count: infinite;
-	visibility: hidden;
-}
-
-@keyframes pulsate {
-	0% {
-		transform: scale(.1);
-		opacity: 0.0;
-	}
-	50% {
-		opacity: 1;
-	}
-	100% {
-		transform: scale(1.2);
-		opacity: 0;
-	}
-}
-*/
-
-
-/* colorbox for text & images */
-.textbox{
-	/* background: pink; */
-
 }
 
 .arrowBox {
@@ -60,19 +18,18 @@
 
 
 #mapContainer {
-	display: block; /*display: none; /* for testing only */
+	display: block; 
 }
 
 /* keep aspect ratio */
 .mapClass {
 	width: 100vw; 
 	height: 40vw; /* 100/56.25 = 1.778 */
-	background: pink;
+	background: #C0C0C0;
 	max-height: 100vh; 
 	max-width: 200vh; /* 16/9 = 1.778 */
 	margin: auto;
 	position: absolute;
-	/*top:0;bottom:0; /* vertical center */
 	left:0;right:0; /* horizontal center */
 }
 
@@ -110,7 +67,6 @@
 	text-align: center;
 }
 
-
 #dateBox 
 {	top: 0;
 	right: 0;
@@ -126,7 +82,7 @@
 
 /* The loading bars */
 .spinner {
-position: absolute;
+	position: absolute;
 	top: 47%;
 	left: 50%;
   /*margin: 100px auto; */
@@ -236,7 +192,6 @@ position: absolute;
 		line-height: 55px;
 		font-size: 1.7em;
 	}
-
 }
 
 /* 4K Devices */
@@ -268,7 +223,7 @@ position: absolute;
 		width: 18px;
 	}
 
-	}
+}
 
 
 
