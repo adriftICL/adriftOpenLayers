@@ -1,10 +1,86 @@
 /* Customs styles */
 
+html, body {
+	height: 100%;
+}
+
+body {
+	color: rgb(23, 66, 101);
+}
+
+#logo {
+	width: 170px;
+}
+
+.navbar {
+	border: 0px;
+	font-size: 13px;
+}
+
+.navbar-default .navbar-nav>li>a {
+    color: rgb(23, 66, 101);
+    font-weight: bold;
+    background: white;
+}
+
+.navbar-default .navbar-nav>.active>a, 
+.navbar-default .navbar-nav>.active>a:focus {
+	color: white;
+	background: rgb(23, 66, 101);
+}
+
+.container-fluid {
+	background: white;
+}
+
 /* Custom container for full width */
 .container-full {
-	margin: 0 auto;
+	min-height: 100%;
+    height: auto !important;
+	margin: 0 auto -100px; /* the bottom margin is the negative value of the footer's height */;
 	width: 100%;
 	height: 100%;
+}
+
+.footer, .push {
+	margin-top:5px;
+    height: 100px; /* .push must be the same height as .footer */
+    font-size: 9px
+}
+
+/*
+#ccbutton, #dsiLogo, #impLogo, #cofeLogo {
+	width: 100%;
+	max-width: 185px;
+} 
+*/
+
+.footer {
+	margin-left: 10px;
+}
+
+.footer .row {
+	margin-right: 0;
+	margin-left: 0;
+}
+
+.footer img {
+	width: 100%;
+	max-width: 185px;
+}
+
+#dsiLogo, #impLogo, #cofeLogo {
+	margin-top: 10px;
+} 
+
+
+#dsiLogo {
+	width: 85%;
+}
+
+.team-member-image {
+	width: 100%;
+	max-width: 400px;
 }
 
 .arrowBox {
@@ -18,13 +94,15 @@
 
 
 #mapContainer {
-	display: block; 
+	display: block;
+	height: 50vw;  /* must be same as .mapClass */
+	max-height: 100vh; /* must be same as .mapClass */
 }
 
 /* keep aspect ratio */
 .mapClass {
+	height: 50vw; /* 100/56.25 = 1.778 */
 	width: 100vw; 
-	height: 40vw; /* 100/56.25 = 1.778 */
 	background: #C0C0C0;
 	max-height: 100vh; 
 	max-width: 200vh; /* 16/9 = 1.778 */
@@ -32,6 +110,7 @@
 	position: absolute;
 	left:0;right:0; /* horizontal center */
 }
+
 
 /* Information boxes within the map */
 .infoBox {
@@ -67,6 +146,7 @@
 	text-align: center;
 }
 
+
 #dateBox 
 {	top: 0;
 	right: 0;
@@ -82,7 +162,7 @@
 
 /* The loading bars */
 .spinner {
-	position: absolute;
+position: absolute;
 	top: 47%;
 	left: 50%;
   /*margin: 100px auto; */
@@ -163,6 +243,14 @@
 
 /* Medium devices (desktops, 992px and up) */
 @media (min-width: 992px) {
+	.navbar {
+		font-size: 14px;
+	}
+
+	#logo {
+		width: 250px;
+	}
+
 	.infoBox {
 		height: 30px;
 		line-height: 30px;
@@ -180,7 +268,11 @@
 }
 
 /* Large devices (large desktops, 1200px and up) */
-@media (min-width: 1200px) { 
+@media (min-width: 1200px) {
+	#dsiLogo, #impLogo, #cofeLogo {
+	margin-top: 0px;
+	} 
+
 	.infoBox {
 		height: 38px;
 		line-height: 38px;
@@ -192,10 +284,12 @@
 		line-height: 55px;
 		font-size: 1.7em;
 	}
+
 }
 
 /* 4K Devices */
 @media (min-width: 3000px) { 
+
 	.infoBox {
 		height: 100px;
 		line-height: 100px;

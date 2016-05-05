@@ -8,12 +8,16 @@ function Map() {
   this.landpoints = null; //array to store landpoint bools
   this.direction = 'fwd';
   this.startMon = 'jan';
+
   this.clickLon = null;
   this.clickLat = null;
+
   this.markerLon = null;
   this.markerLat = null;
+
   this.center = null;
   this.heatMapData = [];
+
 
   //Create the marker
   this.markerOptions = {
@@ -108,7 +112,6 @@ function Map() {
   })
 }
 
-
 //get index of the heatmap data packet to be fetched
 Map.prototype.getDataIndex = function(lon, lat){
   lon = Math.floor(lon);
@@ -119,7 +122,6 @@ Map.prototype.getDataIndex = function(lon, lat){
   }
   return (((lat-1) * 360) + lon);
 }
-
 
 //check if a point is on land
 Map.prototype.checkLandPoint = function(index, callback){
@@ -141,9 +143,8 @@ Map.prototype.checkLandPoint = function(index, callback){
   } 
 }
 
-Map.prototype.onClick = function(clickEvent) {
-    console.log(clickEvent);
-    //convert the projection of the coordinates
+Map.prototype.onClick = function(clickEvent) { 
+   //convert the projection of the coordinates
     var lonlat = ol.proj.transform(clickEvent.coordinate, "EPSG:3857", "EPSG:4326");
     this.clickLon = oneDecimalPlace(lonlat[0]);
     this.clickLat = oneDecimalPlace(lonlat[1]);
@@ -344,6 +345,7 @@ Map.prototype.setURL = function() {
 }
 
 Map.prototype.checkURL = function(){
+  console.log("running the checkURL Function")
   var vars = getUrlVars();
   console.log(vars);
   var variables = ['lon', 'lat', 'center', 'startmon', 'direction' ];
