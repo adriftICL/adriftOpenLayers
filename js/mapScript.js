@@ -3,6 +3,8 @@
 //The Main Map Class
 
 function Map() {
+  this.serverAddress = 'https://swift.rc.nectar.org.au/v1/AUTH_24efaa1ca77941c18519133744a83574'
+
   this.WEIGHT_FACTOR = 200;
   this.timer = null;
   this.landpoints = null; //array to store landpoint bools
@@ -50,10 +52,10 @@ function Map() {
      dragPan: true,
    }),
     layers: [
-    new ol.layer.Tile({
-     source: new ol.source.MapQuest({layer: 'sat'})
-            	//source: new ol.source.OSM({ wrapX: true })
-            }),
+      new ol.layer.Tile({
+        source: new ol.source.MapQuest({layer: 'sat'})
+        //source: new ol.source.OSM({ wrapX: true })
+        }),
     this.markerLayer
     ],
     view: new ol.View({
@@ -65,7 +67,7 @@ function Map() {
   }
 
   this.map = new ol.Map(this.mapOptions);
-  this.extent = [-70, 55 , 60, -55];
+  this.extent = [-70, 58 , 60, -52];
   this.extent = ol.extent.applyTransform(this.extent, ol.proj.getTransform("EPSG:4326", "EPSG:3857")); 
   this.map.getView().fit(this.extent, this.map.getSize());
 
@@ -203,7 +205,7 @@ Map.prototype.run = function(landpointValue){
     //TODO: backwardsQueries
 
     //Construct the query
-    var query = 'https://swift.rc.nectar.org.au/v1/AUTH_24efaa1ca77941c18519133744a83574/globalCsvMonthly/Global_index'
+    var query = this.serverAddress + '/globalCsvMonthly/Global_index'
     + String(dataIndex) + '_startsinJan.csv'
 
     this.req = $.get(query, $.proxy(function(data) {

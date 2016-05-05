@@ -95,6 +95,7 @@ body {
 
 #mapContainer {
 	display: block;
+	width: 100%;
 	height: 50vw;  /* must be same as .mapClass */
 	max-height: 100vh; /* must be same as .mapClass */
 }
@@ -243,6 +244,10 @@ position: absolute;
 
 /* Medium devices (desktops, 992px and up) */
 @media (min-width: 992px) {
+	#dsiLogo, #impLogo, #cofeLogo {
+		margin-top: 0px;
+	} 
+
 	.navbar {
 		font-size: 14px;
 	}
@@ -269,9 +274,15 @@ position: absolute;
 
 /* Large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) {
-	#dsiLogo, #impLogo, #cofeLogo {
-	margin-top: 0px;
-	} 
+
+	/* For the footer */
+	.container-full {
+		margin: 0 auto -75px; /* the bottom margin is the negative value of the footer's height */;
+	}
+
+	.footer, .push {
+	    height: 70px; /* .push must be the same height as .footer */
+	}
 
 	.infoBox {
 		height: 38px;
@@ -284,8 +295,16 @@ position: absolute;
 		line-height: 55px;
 		font-size: 1.7em;
 	}
-
 }
+
+/* 1080p screens */
+@media(min-width: 1900px) {
+	#mapContainer, .mapClass {
+	height: 47vw;  
+	width: 100vw; 
+	}
+}
+
 
 /* 4K Devices */
 @media (min-width: 3000px) { 
