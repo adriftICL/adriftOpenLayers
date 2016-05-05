@@ -55,6 +55,8 @@ function Map() {
       new ol.layer.Tile({
         source: new ol.source.MapQuest({layer: 'sat'})
         //source: new ol.source.OSM({ wrapX: true })
+        //source: new ol.source.Stamen({layer: 'watercolor'})
+        //source: new ol.source.MapQuest({layer: 'osm'})
         }),
     this.markerLayer
     ],
@@ -67,7 +69,7 @@ function Map() {
   }
 
   this.map = new ol.Map(this.mapOptions);
-  this.extent = [-70, 58 , 60, -52];
+  this.extent = [-70, 60 , 60, -50]; //[lon, lat, lon, lat]
   this.extent = ol.extent.applyTransform(this.extent, ol.proj.getTransform("EPSG:4326", "EPSG:3857")); 
   this.map.getView().fit(this.extent, this.map.getSize());
 
@@ -89,6 +91,7 @@ function Map() {
   //save the centre of the map (longitude only)
   this.saveCenter();
 
+  this.checkLocalServer();
   //map events
   //map panned
   this.map.getView().on('change:center', $.proxy(function(changeEvent) {
@@ -101,17 +104,17 @@ function Map() {
   }, this));
 
   //map direction
-  $('#backward').click(function(){
+  $('#backward').click($.proxy(function(){
     console.log("backward clicked");
     this.direction = 'bwd';
     $(window).colorbox.close();
-  })
+  }, this));
 
-  $('#forward').click(function(){
+  $('#forward').click($.proxy(function(){
     console.log("forward clicked");
     this.direction = 'fwd';
     $(window).colorbox.close();
-  })
+  }, this));
 }
 
 //get index of the heatmap data packet to be fetched
@@ -150,7 +153,7 @@ Map.prototype.onClick = function(clickEvent) {
     var lonlat = ol.proj.transform(clickEvent.coordinate, "EPSG:3857", "EPSG:4326");
     this.clickLon = oneDecimalPlace(lonlat[0]);
     this.clickLat = oneDecimalPlace(lonlat[1]);
-
+    console.log(this.clickLat);
     var dataIndex = this.getDataIndex(this.clickLon, this.clickLat);
     this.checkLandPoint(dataIndex, $.proxy(this.run, this));
   };
@@ -205,9 +208,14 @@ Map.prototype.run = function(landpointValue){
     //TODO: backwardsQueries
 
     //Construct the query
-    var query = this.serverAddress + '/globalCsvMonthly/Global_index'
-    + String(dataIndex) + '_startsinJan.csv'
 
+    var query = this.getDataURL(dataIndex);
+    console.log(query);
+    //https://swift.rc.nectar.org.au/v1/AUTH_24efaa1ca77941c18519133744a83574/globalbwdCsv/Global_index36784.csv
+
+    /*var query = this.serverAddress + '/globalCsvMonthly/Global_index'
+    + String(dataIndex) + '_startsinJan.csv'
+    */
     this.req = $.get(query, $.proxy(function(data) {
       console.log("got data");
       this.parseData(data);
@@ -234,6 +242,15 @@ Map.prototype.run = function(landpointValue){
         this.showWarning("Sorry, we have no data for that ocean area",5000);
       }
     }, this));
+  }
+
+  Map.prototype.getDataURL = function(dataIndex){
+    if (this.direction == 'fwd'){
+      return this.serverAddress + '/globalCsvMonthly/Global_index'
+      + String(dataIndex) + '_startsinJan.csv';
+    } else if (this.direction == 'bwd') {
+      return this.serverAddress + '/globalbwdCsv/Global_index' + String(dataIndex) + '.csv';
+    }
   }
 
   //When the center is updated
@@ -378,6 +395,12 @@ Map.prototype.showWarning = function(message, milliseconds){
 
 Map.prototype.clearWarning = function(){
   $('#warningBox').finish().fadeOut("fast");
+}
+
+Map.prototype.checkLocalServer = function(){
+  if (!this.serverAddress.startsWith('http')){
+    $('.spinner').hide();
+  }
 }
 
 function oneDecimalPlace(x) {
