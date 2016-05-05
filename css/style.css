@@ -37,7 +37,7 @@ body {
 .container-full {
 	min-height: 100%;
     height: auto !important;
-	margin: 0 auto -100px; /* the bottom margin is the negative value of the footer's height */;
+	margin: 0 auto -110px; /* the bottom margin is the negative value of the footer's height */;
 	width: 100%;
 	height: 100%;
 }
@@ -98,12 +98,15 @@ body {
 	width: 100%;
 	height: 50vw;  /* must be same as .mapClass */
 	max-height: 100vh; /* must be same as .mapClass */
+
 }
 
 /* keep aspect ratio */
 .mapClass {
 	height: 50vw; /* 100/56.25 = 1.778 */
-	width: 100vw; 
+	width: 100vw;
+	width: 500px;
+	height: 300px; 
 	background: #C0C0C0;
 	max-height: 100vh; 
 	max-width: 200vh; /* 16/9 = 1.778 */
@@ -229,6 +232,15 @@ position: absolute;
 
 /* Small devices (tablets, 768px and up) */
 @media (min-width: 768px) {
+	#mapContainer, .mapClass{
+		height: 500px;
+	}
+
+	.mapClass {
+	width: 768px; 
+	}
+
+
 	.infoBox {
 		height: 30px;
 		line-height: 30px;
@@ -244,6 +256,15 @@ position: absolute;
 
 /* Medium devices (desktops, 992px and up) */
 @media (min-width: 992px) {
+	#mapContainer, .mapClass{
+		height: 500px;
+	}
+
+	.mapClass {
+		width: 992px; 
+	}
+
+
 	#dsiLogo, #impLogo, #cofeLogo {
 		margin-top: 0px;
 	} 
@@ -259,7 +280,7 @@ position: absolute;
 	.infoBox {
 		height: 30px;
 		line-height: 30px;
-		font-size: 1.55em;
+		font-size: 1.45em;
 	}
 	
 	#dateBox {
@@ -274,6 +295,13 @@ position: absolute;
 
 /* Large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) {
+	#mapContainer, .mapClass{
+		height: 600px;
+	}
+
+	.mapClass {
+		width: 1025px; 
+	}
 
 	/* For the footer */
 	.container-full {
@@ -297,10 +325,12 @@ position: absolute;
 	}
 }
 
+
+
 /* 1080p screens */
 @media(min-width: 1900px) {
 	#mapContainer, .mapClass {
-	height: 47vw;  
+	height: 48vw;  
 	width: 100vw; 
 	}
 }
