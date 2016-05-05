@@ -105,15 +105,11 @@ function Map() {
 
   //map direction
   $('#backward').click($.proxy(function(){
-    console.log("backward clicked");
-    this.direction = 'bwd';
-    $(window).colorbox.close();
+    this.setDirection('bwd');
   }, this));
 
   $('#forward').click($.proxy(function(){
-    console.log("forward clicked");
-    this.direction = 'fwd';
-    $(window).colorbox.close();
+    this.setDirection('fwd');
   }, this));
 }
 
@@ -401,6 +397,17 @@ Map.prototype.checkLocalServer = function(){
   if (!this.serverAddress.startsWith('http')){
     $('.spinner').hide();
   }
+}
+
+Map.prototype.setDirection = function(newDirection){
+  if (newDirection == 'fwd'){
+    this.direction = 'fwd';
+    $('#fwdbwdlink').text('Showing where plastic ends up');
+  } else if (newDirection == 'bwd'){
+    this.direction = 'bwd';
+    $('#fwdbwdlink').text('Showing plastic origin');
+  }
+  $(window).colorbox.close();
 }
 
 function oneDecimalPlace(x) {
