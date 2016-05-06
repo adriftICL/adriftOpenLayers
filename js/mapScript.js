@@ -4,6 +4,7 @@
 
 function Map() {
   this.serverAddress = 'https://swift.rc.nectar.org.au/v1/AUTH_24efaa1ca77941c18519133744a83574'
+  this.loop = false;
 
   this.WEIGHT_FACTOR = 200;
   this.timer = null;
@@ -20,6 +21,10 @@ function Map() {
   this.center = null;
   this.heatMapData = [];
 
+  //check if 4k screen, adjust weight accordingly
+  if ($(window).width() > 3000){
+    this.WEIGHT_FACTOR = 800;
+  }
 
   //Create the marker
   this.markerOptions = {
@@ -49,15 +54,17 @@ function Map() {
     interactions: ol.interaction.defaults({
      doubleClickZoom:false,
      mouseWheelZoom:false,
+     pinchRotate:false,
+     pinchZoom:false,
      dragPan: true,
    }),
     layers: [
-      new ol.layer.Tile({
-        source: new ol.source.MapQuest({layer: 'sat'})
+    new ol.layer.Tile({
+      source: new ol.source.MapQuest({layer: 'sat'})
         //source: new ol.source.OSM({ wrapX: true })
         //source: new ol.source.Stamen({layer: 'watercolor'})
         //source: new ol.source.MapQuest({layer: 'osm'})
-        }),
+      }),
     this.markerLayer
     ],
     view: new ol.View({
@@ -146,13 +153,12 @@ Map.prototype.checkLandPoint = function(index, callback){
 
 Map.prototype.onClick = function(clickEvent) { 
    //convert the projection of the coordinates
-    var lonlat = ol.proj.transform(clickEvent.coordinate, "EPSG:3857", "EPSG:4326");
-    this.clickLon = oneDecimalPlace(lonlat[0]);
-    this.clickLat = oneDecimalPlace(lonlat[1]);
-    console.log(this.clickLat);
-    var dataIndex = this.getDataIndex(this.clickLon, this.clickLat);
-    this.checkLandPoint(dataIndex, $.proxy(this.run, this));
-  };
+   var lonlat = ol.proj.transform(clickEvent.coordinate, "EPSG:3857", "EPSG:4326");
+   this.clickLon = oneDecimalPlace(lonlat[0]);
+   this.clickLat = oneDecimalPlace(lonlat[1]);
+   var dataIndex = this.getDataIndex(this.clickLon, this.clickLat);
+   this.checkLandPoint(dataIndex, $.proxy(this.run, this));
+ };
 
 // the main function which acquires fetches data and runs heatmap
 Map.prototype.run = function(landpointValue){
@@ -224,8 +230,13 @@ Map.prototype.run = function(landpointValue){
         this.updateHeatMap(y, m);
         counter++;
         if (counter > 12 * 10) {
-          window.clearInterval(this.timer);
-          this.timer = null;
+          if (this.loop == true) {
+            console.log("reset counter");
+            counter = 0
+          } else {
+            window.clearInterval(this.timer);
+            this.timer = null;
+          }
         }
       }, this), 125);
     }, this))
@@ -305,35 +316,33 @@ Map.prototype.parseData = function(filecontent) {
         long: parseFloat(parts[3]),
         probability: parseFloat(parts[4])
       };
-            //Fix long coordinates to be in the [-180, 180] range
-            if (heatPointRaw.long > 180.0) {
-              heatPointRaw.long -= 360.0;
-            }
-            //Fix lat coordinates to be in the [-180, 180] range
-            if (heatPointRaw.lat > 180.0) {
-              heatPointRaw.lat -= 360.0;
-            }
+      //Fix long coordinates to be in the [-180, 180] range
+      if (heatPointRaw.long > 180.0) {
+        heatPointRaw.long -= 360.0;
+      }
+      //Fix lat coordinates to be in the [-180, 180] range
+      if (heatPointRaw.lat > 180.0) {
+        heatPointRaw.lat -= 360.0;
+      }
 
-            var  heatPoint = this.createHeatMapPoint(heatPointRaw.long, heatPointRaw.lat, heatPointRaw.probability);
+      var  heatPoint = this.createHeatMapPoint(heatPointRaw.long, heatPointRaw.lat, heatPointRaw.probability);
 
-            if (this.heatMapData[heatPointRaw.year] == undefined) { //Year doesn't exists
-                this.heatMapData[heatPointRaw.year] = []; //Create it
-            }
-            if (this.heatMapData[heatPointRaw.year][heatPointRaw.month] == undefined) { //Month doesn't exists
-                this.heatMapData[heatPointRaw.year][heatPointRaw.month] = []; // Create It
-            }
-            //Push it to storage
-            this.heatMapData[heatPointRaw.year][heatPointRaw.month].push(heatPoint);
-          }
-        }
-      };
+      if (this.heatMapData[heatPointRaw.year] == undefined) { //Year doesn't exists
+        this.heatMapData[heatPointRaw.year] = []; //Create it
+      }
+      if (this.heatMapData[heatPointRaw.year][heatPointRaw.month] == undefined) { //Month doesn't exists
+        this.heatMapData[heatPointRaw.year][heatPointRaw.month] = []; // Create It
+      }
+      //Push it to storage
+      this.heatMapData[heatPointRaw.year][heatPointRaw.month].push(heatPoint);
+      }
+    }
+  };
 
-Map.prototype.updateHeatMap = function(year, month) {
+      Map.prototype.updateHeatMap = function(year, month) {
   //If we have data for this year/month
   //Clear, update and display
   if (this.heatMapData[year] && this.heatMapData[year][month]) {
-  //console.log("UpdateHeat map at year=" + year + " month=" + month);
-
     //Cleanup heatmap
     this.heatMap.setSource(null);
     this.heatMapSource.clear();
@@ -355,14 +364,12 @@ Map.prototype.updateHeatMap = function(year, month) {
 Map.prototype.setURL = function() {
   var url = window.location.href.split('?')[0];
   url += '?lat=' + this.markerLat + '&lng=' + this.markerLon
-    + '&center=' + this.center + '&startmon=' + this.startMon + '&direction=' + this.direction;
+  + '&center=' + this.center + '&startmon=' + this.startMon + '&direction=' + this.direction;
   history.pushState({}, null, url);
 }
 
 Map.prototype.checkURL = function(){
-  console.log("running the checkURL Function")
   var vars = getUrlVars();
-  console.log(vars);
   var variables = ['lon', 'lat', 'center', 'startmon', 'direction' ];
   //check all required parameters exist 
   if ($.isEmptyObject(vars)){
@@ -417,7 +424,7 @@ function oneDecimalPlace(x) {
 function getUrlVars() {
   var vars = {};
   var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
-  vars[key] = value;
+    vars[key] = value;
   });
   return vars;
 }
@@ -426,11 +433,3 @@ function getUrlVars() {
 var themap = new Map();
 themap.checkURL();
 
-//testing a simple ajax call
-function doFunction(){
-
-  //window.location.href = "#blahblah";
-  console.log("in the do function");
-
-
-}
