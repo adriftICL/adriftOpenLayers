@@ -60,10 +60,14 @@ function Map() {
    }),
     layers: [
     new ol.layer.Tile({
-      source: new ol.source.MapQuest({layer: 'sat'})
-        //source: new ol.source.OSM({ wrapX: true })
-        //source: new ol.source.Stamen({layer: 'watercolor'})
-        //source: new ol.source.MapQuest({layer: 'osm'})
+      //source: new ol.source.MapQuest({layer: 'sat'})
+      //source: new ol.source.OSM({ wrapX: true })
+      //source: new ol.source.Stamen({layer: 'watercolor'})
+      //source: new ol.source.MapQuest({layer: 'osm'})
+      source: new ol.source.OSM({
+        url: 'tiles/watercolor/{z}/{x}/{y}.jpg'
+      }) 
+
       }),
     this.markerLayer
     ],
