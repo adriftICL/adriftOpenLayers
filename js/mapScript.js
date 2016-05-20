@@ -21,9 +21,12 @@ function Map() {
   this.center = null;
   this.heatMapData = [];
 
-  //check if 4k screen, adjust weight accordingly
+  this.markerUrl = 'img/MarkerDuckie.png';
+
+  //check if 4k screen, adjust attributes accordingly
   if ($(window).width() > 3000){
     this.WEIGHT_FACTOR = 800;
+    this.markerUrl = 'img4k/MarkerDuckie.png';
   }
 
   //Create the marker
@@ -40,7 +43,7 @@ function Map() {
     style: new ol.style.Style({
       image: new ol.style.Icon({
         anchor: [0.5, 1],
-        src: 'img/MarkerDuckie.png'
+        src: this.markerUrl
       })
     })
   });
@@ -62,11 +65,11 @@ function Map() {
     new ol.layer.Tile({
       //source: new ol.source.MapQuest({layer: 'sat'})
       //source: new ol.source.OSM({ wrapX: true })
-      //source: new ol.source.Stamen({layer: 'watercolor'})
+      source: new ol.source.Stamen({layer: 'watercolor'})
       //source: new ol.source.MapQuest({layer: 'osm'})
-      source: new ol.source.OSM({
+      /*source: new ol.source.OSM({
         url: 'tiles/watercolor/{z}/{x}/{y}.jpg'
-      }) 
+      }) */ 
 
       }),
     this.markerLayer
@@ -200,6 +203,7 @@ Map.prototype.run = function(landpointValue){
 
     //start the loading icon
     $(".spinner").css("visibility","visible");
+
 
     //Reset Heatmap in case it is presently running
     this.timer == null;
@@ -406,7 +410,7 @@ Map.prototype.clearWarning = function(){
 
 Map.prototype.checkLocalServer = function(){
   if (!this.serverAddress.startsWith('http')){
-    $('.spinner').hide();
+    $('.spinner').hide(500);
   }
 }
 
