@@ -131,11 +131,11 @@ function Map() {
 Map.prototype.getDataIndex = function(lon, lat){
   lon = Math.floor(lon);
   lat = Math.floor(lat);
-  lat += 75;
+  lat += 90;
   if (lon < 0) {
-    lon += 360;
+    lon += 361;
   }
-  return (((lat-1) * 360) + lon);
+  return (((lat-1) * 361) + lon);
 }
 
 //check if a point is on land
@@ -261,9 +261,9 @@ Map.prototype.run = function(landpointValue){
 
   Map.prototype.getDataURL = function(dataIndex){
     if (this.direction == 'fwd'){
-      return this.serverAddress + '/globalCsvMonthly/Global_index'
       var pad = "00000"
       var str = String(dataIndex)
+      return this.serverAddress + '/globalfwdCsv_hybrid3/Global_index'
       + pad.substring(0, pad.length - str.length) + str + '_startsinJan.csv';
     } else if (this.direction == 'bwd') {
       return this.serverAddress + '/globalbwdCsv/Global_index' + String(dataIndex) + '.csv';
