@@ -262,7 +262,9 @@ Map.prototype.run = function(landpointValue){
   Map.prototype.getDataURL = function(dataIndex){
     if (this.direction == 'fwd'){
       return this.serverAddress + '/globalCsvMonthly/Global_index'
-      + String(dataIndex) + '_startsinJan.csv';
+      var pad = "00000"
+      var str = String(dataIndex)
+      + pad.substring(0, pad.length - str.length) + str + '_startsinJan.csv';
     } else if (this.direction == 'bwd') {
       return this.serverAddress + '/globalbwdCsv/Global_index' + String(dataIndex) + '.csv';
     }
