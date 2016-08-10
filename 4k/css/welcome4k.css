@@ -1,0 +1,47 @@
+
+
+html, body {
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+}
+
+video {
+	width: 100%;
+	height: auto;
+}
+
+#logo {
+	top: 500px;
+	left: 800px;
+
+	position: absolute;
+	width: 2200px;
+	z-index: 5;
+}
+
+#touch-here {
+	top: 1200px;
+	left: 1000px;
+
+	position: absolute;
+	width: 1800px;
+	z-index: 5;
+}
+
+#visit-us {
+	top: 1600px;
+	left: 600px;
+	position: absolute;
+	width: 2700px;
+	z-index: 5;
+}
+
+.overlay {
+	top:0;
+	left: 0;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	z-index: 255;
+}
