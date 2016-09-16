@@ -3,7 +3,7 @@
 //The Main Map Class
 
 function Map() {
-  this.serverAddress = 'https://swift.rc.nectar.org.au/v1/AUTH_24efaa1ca77941c18519133744a83574'
+  this.serverAddress = 'http://assets.plasticadrift.org'
   this.loop = false;
 
   this.WEIGHT_FACTOR = 200;
@@ -263,7 +263,7 @@ Map.prototype.run = function(landpointValue){
     if (this.direction == 'fwd'){
       var pad = "00000"
       var str = String(dataIndex)
-      return this.serverAddress + '/globalfwdCsv_hybrid3/Global_index'
+      return this.serverAddress + '/globalfwdCsv/Global_index'
       + pad.substring(0, pad.length - str.length) + str + '_startsinJan.csv';
     } else if (this.direction == 'bwd') {
       return this.serverAddress + '/globalbwdCsv/Global_index' + String(dataIndex) + '.csv';
