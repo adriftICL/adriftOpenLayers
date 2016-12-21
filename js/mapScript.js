@@ -221,6 +221,10 @@ Map.prototype.run = function(landpointValue){
 
     var query = this.getDataURL(dataIndex);
     console.log(query);
+    
+    //Update the download-link text
+    $("div#downloadbar_text").html('<b><a href="'+query+'">Click here for csv file</a></b></p><p>This experiment starts at latitude = <b>'+this.markerLat+'</b>, longitude = <b>'+this.markerLon+'</b> and starts in the two-month period Jan-Feb</b>. To change, alter the values in the address bar. <i>Note that currently startmonth can not be changed.</i></p>')
+
     //https://swift.rc.nectar.org.au/v1/AUTH_24efaa1ca77941c18519133744a83574/globalbwdCsv/Global_index36784.csv
 
     /*var query = this.serverAddress + '/globalCsvMonthly/Global_index'

@@ -36,6 +36,12 @@ $(document).ready(function() {
         $('#plastic-container').css('display', 'block');
     });
 
+    /* Download navigation */
+    $('#download-nav').on('click', function() {
+        $('.content-container').css("display", "none");
+        $('#download-container').css('display', 'block');
+    });
+
     /* Check the URL and direct accordingly */
     var page = window.location.hash;
     if (page.length > 0){
