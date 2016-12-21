@@ -4,7 +4,7 @@
 
 function Map() {
   this.serverAddress = 'http://assets.plasticadrift.org'
-  this.loop = false;
+  this.loop = true;
 
   this.WEIGHT_FACTOR = 200;
   this.timer = null;
