@@ -37,14 +37,14 @@ body {
 .container-full {
 	min-height: 100%;
     height: auto !important;
-	margin: 0 auto -110px; /* the bottom margin is the negative value of the footer's height */;
+	margin: 0 auto -130px; /* the bottom margin is the negative value of the footer's height */;
 	width: 100%;
 	height: 100%;
 }
 
 .footer, .push {
 	margin-top:5px;
-    height: 100px; /* .push must be the same height as .footer */
+    height: 130px; /* .push must be the same height as .footer */
     font-size: 9px
 }
 
@@ -304,7 +304,7 @@ position: absolute;
 
 	/* For the footer */
 	.container-full {
-		margin: 0 auto -75px; /* the bottom margin is the negative value of the footer's height */;
+		margin: 0 auto -70px; /* the bottom margin is the negative value of the footer's height */;
 	}
 
 	.footer, .push {
