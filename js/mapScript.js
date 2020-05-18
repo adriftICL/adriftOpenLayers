@@ -3,7 +3,7 @@
 //The Main Map Class
 
 function Map() {
-  this.serverAddress = 'http://assets.plasticadrift.org'
+  this.serverAddress = 'http://plasticadrift.science.uu.nl'
   this.loop = true;
 
   this.WEIGHT_FACTOR = 200;
@@ -147,7 +147,7 @@ Map.prototype.checkLandPoint = function(index, callback){
   }
   //load the landpoints file if not already done so
   if (this.landpoints == null) {
-    $.get("data/landpoints.csv").success($.proxy(saveLandpoints,this))
+    $.get("http://plasticadrift.org/data/landpoints.csv").success($.proxy(saveLandpoints,this))
     .error($.proxy(function(result){
       console.log("Error fetching landpoints.csv file");
         callback(-2); //use -2 for error code as -1 is already taken
@@ -267,7 +267,7 @@ Map.prototype.run = function(landpointValue){
     if (this.direction == 'fwd'){
       var pad = "00000"
       var str = String(dataIndex)
-      return this.serverAddress + '/globalfwdCsv/Global_index'
+      return this.serverAddress + '/data/globalfwdCsv/Global_index'
       + pad.substring(0, pad.length - str.length) + str + '_startsinJan.csv';
     } else if (this.direction == 'bwd') {
       return this.serverAddress + '/globalbwdCsv/Global_index' + String(dataIndex) + '.csv';
