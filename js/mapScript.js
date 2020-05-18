@@ -270,7 +270,7 @@ Map.prototype.run = function(landpointValue){
       return this.serverAddress + '/data/globalfwdCsv/Global_index'
       + pad.substring(0, pad.length - str.length) + str + '_startsinJan.csv';
     } else if (this.direction == 'bwd') {
-      return this.serverAddress + '/globalbwdCsv/Global_index' + String(dataIndex) + '.csv';
+      return this.serverAddress + '/data/globalbwdCsv/Global_index' + String(dataIndex) + '.csv';
     }
   }
 
