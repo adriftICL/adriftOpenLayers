@@ -3,7 +3,7 @@
 //The Main Map Class
 
 function Map() {
-  this.serverAddress = 'http://plasticadrift.science.uu.nl'
+  this.serverAddress = 'https://plasticadrift.science.uu.nl'
   this.loop = true;
 
   this.WEIGHT_FACTOR = 200;
@@ -147,7 +147,7 @@ Map.prototype.checkLandPoint = function(index, callback){
   }
   //load the landpoints file if not already done so
   if (this.landpoints == null) {
-    $.get("http://plasticadrift.org/data/landpoints.csv").success($.proxy(saveLandpoints,this))
+    $.get("https://plasticadrift.org/data/landpoints.csv").success($.proxy(saveLandpoints,this))
     .error($.proxy(function(result){
       console.log("Error fetching landpoints.csv file");
         callback(-2); //use -2 for error code as -1 is already taken
@@ -415,7 +415,7 @@ Map.prototype.clearWarning = function(){
 }
 
 Map.prototype.checkLocalServer = function(){
-  if (!this.serverAddress.startsWith('http')){
+  if (!this.serverAddress.startsWith('https')){
     $('.spinner').hide(500);
   }
 }
