@@ -371,7 +371,12 @@ Map.prototype.parseData = function(filecontent) {
     this.heatMap.changed();
 
     //update text in the dateBox
-    $('#dateBox').text('Marine Plastics after ' + year + ' years and ' + month + ' months');
+    var url_parts = window.location.href.replace(/\/\s*$/,'').split('/');
+    if (url_parts.at(-2).includes('nl')) {
+      $('#dateBox').text('Marine plastics na ' + year + ' jaar en ' + month + ' maanden');
+    } else {
+      $('#dateBox').text('Marine Plastics after ' + year + ' years and ' + month + ' months');
+    }
   }
 };
 
@@ -421,12 +426,21 @@ Map.prototype.checkLocalServer = function(){
 }
 
 Map.prototype.setDirection = function(newDirection){
+  var url_parts = window.location.href.replace(/\/\s*$/,'').split('/');
   if (newDirection == 'fwd'){
     this.direction = 'fwd';
-    $('#fwdbwdlink').text('Showing where plastic ends up');
+    if (url_parts.at(-2).includes('nl')) {
+      $('#fwdbwdlink').text('Laat zien waar plastic eindigt');
+    } else {
+      $('#fwdbwdlink').text('Showing where plastic ends up');
+    }
   } else if (newDirection == 'bwd'){
     this.direction = 'bwd';
-    $('#fwdbwdlink').text('Showing plastic origin');
+    if (url_parts.at(-2).includes('nl')) {
+      $('#fwdbwdlink').text('Laat zien waar plastic vandaan komt');
+    } else {
+      $('#fwdbwdlink').text('Showing plastic origin');
+    }
   }
   $(window).colorbox.close();
 }
