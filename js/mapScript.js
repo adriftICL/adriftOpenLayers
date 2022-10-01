@@ -443,6 +443,7 @@ Map.prototype.setDirection = function(newDirection){
     }
   }
   $(window).colorbox.close();
+  this.run()
 }
 
 function oneDecimalPlace(x) {
