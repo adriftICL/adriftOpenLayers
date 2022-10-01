@@ -170,17 +170,34 @@ Map.prototype.onClick = function(clickEvent) {
 // the main function which acquires fetches data and runs heatmap
 Map.prototype.run = function(landpointValue){
     //Check correct landpoint value
-    if (landpointValue == -2){
-      console.log("error fetching landpont file and value");
-      this.showWarning('Sorry, we were unable to retrieve data for that location', 5000);
-      return;
-    } else if (landpointValue == 1) {
-      //alert('point was on land, please choose a point on sea');
-      this.showWarning('You clicked on land, please click on the ocean', 4000);
-      return;
-    } else if (landpointValue == -1){
-      this.showWarning('Sorry we have no data for that ocean area', 4000);
-      return;
+    var url_parts = window.location.href.replace(/\/\s*$/,'').split('/');
+    if (url_parts.at(-2).includes('nl')) {
+      if (landpointValue == -2) {
+        console.log("error fetching landpont file and value");
+        this.showWarning('Sorry, we kunnen geen data ophalen voor deze locatie', 5000);
+        return;
+      } else if (landpointValue == 1) {
+        //alert('point was on land, please choose a point on sea');
+        this.showWarning('Je klikte op land, klik alsjeblieft ergens op de ocean', 4000);
+        return;
+      } else if (landpointValue == -1) {
+        this.showWarning('Sorry, we hebben geen data voor deze ocaan-locatie', 4000);
+        return;
+      }
+
+    } else {
+      if (landpointValue == -2) {
+        console.log("error fetching landpont file and value");
+        this.showWarning('Sorry, we were unable to retrieve data for that location', 5000);
+        return;
+      } else if (landpointValue == 1) {
+        //alert('point was on land, please choose a point on sea');
+        this.showWarning('You clicked on land, please click on the ocean', 4000);
+        return;
+      } else if (landpointValue == -1) {
+        this.showWarning('Sorry we have no data for that ocean area', 4000);
+        return;
+      }
     }
     //clear any existing warning messages
     this.clearWarning();
