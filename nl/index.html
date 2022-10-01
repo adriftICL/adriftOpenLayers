@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="lib/ol/ol.css" type="text/css">
+  <link rel="stylesheet" href="lib/bootstrap-3.3.6-dist/css/bootstrap.min.css" type="text/css">
+
+  <link rel="stylesheet" href="css/style.css" type="text/css">
+  <title>Plastic Adrift</title>
+</head>
+
+<body>
+<div id="main" class="container container-full">
+  <nav class="navbar navbar-default">
+    <div class="col-lg-2"></div>
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html"><img id="logo" class="img-responsive" src="img/plasticadriftlogo.png" alt="Adrift"></a>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li><a id="howlink" href="#howBox">Hoe weten we dit?</a></li>
+          <li><a id="faqlink" href="#faqBox">FAQ</a></li>
+          <li><a id="teamlink" href="#teamBox">Team</a></li>
+          <li><a id="plasticlink" href="#plasticBox">Eendjes &amp; ander plastic</a></li>
+          <li><a id="downloadlink" href="#downloadBox">Download</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="row">
+    <div id="mapContainer" class="col-md-12 content-container">
+
+      <!-- Infoboxes -->
+      <div style="display: none">
+        <!-- Forward Backward -->
+        <div id= "fwdbwdBox" class="textbox" ><h3>Kies de tijds-richting van je experiment</h3>
+          <div class="infoBoxPopUp">
+            <div id="backward" class="arrowBox" style="">
+              <a href="#backward">
+                <img src="img/fwdbwd/bwdbutton.png" class="img-responsive" alt="Forward">
+                <h4 class="infoBoxCaption">Terug</h4>
+              </a>
+            </div>
+            <div id="forward" class="arrowBox" style="">
+              <a href="#forward">
+                <img src="img/fwdbwd/fwdbutton.png" class="img-responsive" alt="Forward">
+                <h4 class="infoBoxCaption">Voorwaarts</h4>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display: none">
+        <div id= "howBox" class="textbox" >
+          <h3>How do we know?</h3>
+          <p>
+            The scientific methods used to calculate the paths of floating debris through our oceans for 10 years after release are quite complicated. It is perhaps best summarised in the video below
+          </p>
+          <iframe width="750" height="422" src="https://www.youtube.com/embed/M4UK9Yt6A-s" frameborder="0" allowfullscreen></iframe>
+          <p>
+            Our oceans make up 70 per cent of the Earth's surface and are in constant motion. Driven by the sun and the wind our oceans develop mighty currents and <a target="_blank" href="http://oceanservice.noaa.gov/facts/eddy.html">eddies</a>, some of which can take centuries to loop through all of our planet's ocean basins.
+          </p>
+          <p>
+            These currents also move through three dimensions. Many rise from the deep ocean near coastlines while other currents descend to the deepest parts of the ocean. These vertically descending currents are often, but not always, in the middle of the ocean in regions known as the <a target="_blank" href="http://en.wikipedia.org/wiki/Ocean_gyre">five great gyres</a>. These gyres are giant vortices spanning the whole ocean basin where water at the surface slowly spirals inwards until it sinks.
+          </p>
+          <p>
+            However, almost all plastic materials and lighter than water objects (such as those messages in a bottles) stay on the surface.
+          </p>
+          <p>
+            Since the late 1970s, ocean scientists have tracked drifting buoys but it wasn't until 1982 the World Climate Research Programme put forward the idea of a standardised global array of drifting buoys. These buoys float with the currents just like plastics except - like Twitter from the sea - they send a short message to scientists every few hours about where they are and the conditions in that location.
+          </p>
+          <p>
+            With this information, we have been able to create a statistical model of the surface pathways of our oceans. The plasticadrift website uses this model and generates an animation of the likely path and destination of floating debris over a ten year period, either into the future or into the past.
+          </p>
+          <p>
+            For the full details go to the papers <a target="_blank" href="https://iopscience.iop.org/article/10.1088/1748-9326/7/4/044040">Origin, dynamics and evolution of ocean garbage patches from observed surface drifters</a> and <a target="_blank" href="http://dx.doi.org/10.1016/j.jembe.2014.09.002">Adrift.org.au - a free, quick and easy tool to quantitatively study planktonic surface drift in the global ocean</a>. If you have any further questions you can  <a target="_blank" href="https://www.uu.nl/staff/EvanSebille">contact Erik van Sebille</a>.
+          </p>
+
+        </div>
+      </div>
+
+      <div style="display: none">
+        <div id= "faqBox" class="textbox" >
+          <h3> Frequently Asked Questions</h3>
+          <p>
+            <i><b>Q:</b> Why does the site say "Sorry, we have no data for that ocean area"?</i>
+          </p>
+          <p>
+            <b>A:</b> The website is built using data from observations only. And like any observations, these are not perfect. We just do not have data from every area in the ocean. This can be seen in the map below, which shows in red the areas where there are not enough surface drifting buoys for our analysis.
+          </p>
+          <p>
+            <img src="img/coverage.jpg">
+          </p>
+          <p>
+            Most areas without sufficient coverage are very near the coastlines. But there are also extensive regions in the Arctic, around Antarctica, in the Indonesian Archipelago, the North Sea and some other marginal seas. The reasons for this poor coverage vary from sea ice to piracy, as can be read in this <a target="_blank" href="http://journals.ametsoc.org/doi/abs/10.1175/JTECH-D-11-00100.1">excellent article</a> (paywalled).
+          </p>
+          <p>
+            <i><b>Q:</b> Why does my plastic litter stay in the Mediterranean Sea?</i>
+          </p>
+          <p>
+            <b>A:</b> Again, this is a coverage issue, see also the map above. In the whole 30 years of the drifter project, there has never been a drifting buoy that crossed the Gibraltar Strait. In our transition matrix, the Mediterranean Ocean is therefore completely disconnected from the rest of the global ocean.
+          </p>
+          <p>
+            <i><b>Q:</b> What exactly does the scale mean?</i>
+          </p>
+          <p>
+            <b>A:</b> The scale on the bottom right runs from 0% to 1%. This may sound like a small number, but that is just because the plastic very quickly spreads over a large area. We have max-ed out areas where the plastic concentration is higher than 1%, in order to focus on the spread of the plastic after a few years.
+          </p>
+          <p>
+            <i><b>Q:</b> Why can I see only plastic litter for the coming 10 years?</i>
+          </p>
+          <p>
+            <b>A:</b> The 10 years maximum is a trade-off between more information and faster response times. In principle, we can advect the plastic much longer than 10 years, but it will then take much longer before you see the result. If you really want to see plastic evolution on longer time scales, <a target="_blank" href="https://www.uu.nl/staff/EvanSebille">contact us directly</a>.
+          </p>
+          <p>
+            <i><b>Q:</b> Can I export the raw data from the experiment? / Can I have multiple release points?</i>
+          </p>
+          <p>
+            <b>A:</b> You can download the datafrom each simulation using the 'Download' button on the top right. If you want something more 'fancy' than what the site can provide, either <a target="_blank" href="https://surfdrive.surf.nl/files/index.php/s/ZhXmLMgqUyT03EX">download the transit matrix</a> and start analysing it yourself, or <a target="_blank" href="https://www.uu.nl/staff/EvanSebille">contact me</a>.
+          </p>
+        </div>
+      </div>
+
+      <div style="display: none">
+        <div id= "teamBox" class="textbox" >
+          <h3>Team members</h3>
+          <div class="team_member col-md-4">
+            <img src="img/erik.jpg" class="team-member-image img-responsive" alt="erik">
+            <p></p>
+            <p>
+              <b>Dr Erik van Sebille</b> is a physical oceanographer at Utrecht University, who studies the large-scale circulation of the ocean. He is particularly interested in the connection between ocean basins and the processes that determine how much water 'leaks' from one ocean basin into another. These connections are important for global climate and for the pathways of both marine organisms and debris. For more information, see <a target="_blank" href="https://www.uu.nl/staff/EvanSebille"> https://www.uu.nl/staff/EvanSebille</a>. </p>
+          </div>
+          <div class="team_member col-md-4">
+            <img src="img/david.jpg" class="team-member-image img-responsive" alt="david">
+            <p></p>
+            <p>
+              <b>David Fuchs</b> is a solutions architect with more than thirteen years of experience in software ranging from voice over IP to applications of machine learning techniques to large data sets. David brings combined experience in both engineering and science and is currently interested in software applications to large amount of data in general and climate data in particular. </p>
+          </div>
+          <div class="team_member col-md-4">
+            <img src="img/jack.jpg" class="team-member-image img-responsive" alt="jack">
+            <p></p>
+            <p>
+              <b>Jack Murray</b> is a software engineer specializing in web application development with experience in writing code for both frontend and backend. Jack helped with the initial implementation of the frontend and backend.
+          </div>
+        </div>
+      </div>
+
+      <div style="display: none">
+        <div id= "plasticBox" class="textbox" >
+          <h3>Duckies and Other Plastic</h3>
+          <p>
+            We show you a cute rubber duckie on the map, but the experiment you are doing when you click on the map is actually very sad. You are investigating <a href="https://plasticsoep.sites.uu.nl/en/">how plastics move in the ocean</a>.
+          </p>
+          <p>
+            Plastic pollution is one of the <a target="_blank" href="https://plasticsoep.sites.uu.nl/en/the-cost-of-the-plastic-soup/">biggest problems in our ocean</a>. It can <a target="_blank" href="https://plasticsoep.sites.uu.nl/en/animal-suffering/">entangle marine animals, or they can mistake it for food and eat it</a>. If that happens, the plastic <a target="_blank" href="https://plasticsoep.sites.uu.nl/en/plastic-diet/">gets into the food-chain</a>, and in particular the <a target="_blank" href="https://plasticsoep.sites.uu.nl/en/plastic-on-our-plate/">chemicals in the plastics</a> can be very harmful.
+          </p>
+          <p>
+            Fortunately, there are <a href="https://plasticsoep.sites.uu.nl/en/what-you-can-do/">things you can do yourself</a> to prevent or clean up the plastis in the ocean: use less plastic, recycle and of course <a href="https://plasticsoep.sites.uu.nl/en/research-into-plastic-soup/">help the scientists</a>.
+          </p>
+        </div>
+      </div>
+
+      <div style="display: none">
+        <div id= "downloadBox" class="textbox" >
+          <h3>Download data</h3>
+          <p>
+            You can download the data of the experiment on the screen via the link below.
+          </p>
+          <p>
+          <div id="downloadbar_text">
+            <i>First click on a point on the map</i>
+          </div>
+          </p>
+          <p>
+            The data is a comma-separated file that should load into Excel. It has five columns: the year, the month, the latitude, the longitude and the weight. Each row in the file corresponds to one grid point on the map, and rows with the same year and month data are shown as one snapshot in the animation. The sum of weights for a given year and month is always 1, except for that grid cells where the weight is smaller than 0.00025 are not listed.
+          </p>
+          <p>
+            You are welcome and free to use the data in the file above for your scientific work. I just ask that you cite <a href="http://iopscience.iop.org/1748-9326/7/4/044040/">this scientific article</a> in any publications that use the data. Both the data and the paper are licensed under a <a href="http://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution license</a>. Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.
+          </p>
+          <p>
+            If you have any questions on how to use the data, please <a href="https://www.uu.nl/staff/EvanSebille">contact me</a>.
+          </p>
+        </div>
+      </div>
+
+      <div style="display: none">
+        <div id= "accessBox" class="textbox" >
+          <h3>Web Content Accessibility Statement</h3>
+          <p>
+            The PlasticAdrift.org  Website  has not been formally assessed for compliance against Web Content Accessibility Guidelines (WCAG).
+          </p><p>
+            The software providers (Imperial College and Utrecht University) have undertaken a lot of usability improvements to the pages to improve the experience for users with disabilities and visual impairments.
+        </p><p>
+            The Website  is considered to be partially conformant with WCAG 2.1 AA standards,. Partially conformant means that some parts of the content do not conform to the accessibility standards.
+        </p><p>
+            We will do our best to address all reasonable requests regarding this website and its use. Please contact <a href="https://www.uu.nl/staff/EvanSebille">contact me</a>. I endeavour to respond within 7 days.
+          </p>
+        </div>
+      </div>
+
+      <!-- the main map div -->
+      <div id="testingDiv">
+        <div id="mapClass" class="mapClass">
+          <!-- The loading bars -->
+          <div class="spinner">
+            <div class="rect1"></div>
+            <div class="rect2"></div>
+            <div class="rect3"></div>
+            <div class="rect4"></div>
+            <div class="rect5"></div>
+          </div>
+
+          <div id="warningBox" class="infoBox">
+            Please click a point in the ocean
+          </div>
+          <div id="fwdbwd" class="infoBox"><a id="fwdbwdlink" href="#fwdbwdBox">Laat zien waar plastic eindigt</a></div>
+          <div id="dateBox" class="infoBox">Klik op een punt in de oceaan</div>
+
+        </div>
+      </div>
+    </div> <!-- testing div -->
+
+  </div>
+
+  <div class="push"></div>
+</div>
+<div class="footer">
+  <div class="row">
+    <div class="col-xs-2 col-sm-2 col-md-1 col-lg-1">
+      <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">
+        <img id="ccbutton" src="img/by.png" class="img-responsive" alt="CC">
+      </a>
+    </div>
+
+    <div class="col-xs-10 col-sm-10 col-md-5 col-lg-5">
+      Je bent van harte welkom om de data van deze website te gebruiken. Ik vraag alleen dat je <a href="http://iopscience.iop.org/1748-9326/7/4/044040/">dit wetenschappelijke artikel</a> citeert in een publicatie die deze data gebruikt. Zowel de data als het artikel zijn gelicenseerd met een <a href="http://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution license</a>. De map tiles zijn van <a href="http://stamen.com">Stamen Design</a>, en gebruikt met een <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. De data van de map tiles zijn van <a href="http://openstreetmap.org">OpenStreetMap</a>, en gebruikt met een <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>. De code van deze pagina staat <a href="https://github.com/adriftICL/adriftOpenLayers"> op GitHub</a>. <a id="accesslink" href="#accessBox">Web Content Accessibility Statement</a>.
+      Als je een vraag hebt over de website of de data, kun je me <a href="https://www.uu.nl/staff/EvanSebille">bereiken</a>.
+    </div>
+
+    <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2">
+      <a href="https://www.imperial.ac.uk/" target="_blank">
+        <img id="impLogo" src="img/imperialLogo.png" class="img-responsive" alt="Imperial College London">
+      </a>
+    </div>
+    <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2">
+      <a href="https://www.uu.nl/" target="_blank">
+        <img id="UULogo" src="img/UU_logo_EN_RGB.jpg" class="img-responsive" alt="Utrecht University">
+      </a>
+    </div>
+    <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2">
+      <a href="http://www.climatescience.org.au/" target="_blank">
+        <img id="cofeLogo" src="img/cofe.png" class="img-responsive" alt="ARC Centre of Excellence for Climate System Science">
+      </a>
+    </div>
+  </div>
+</div>
+<div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="lib/bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
+<script src="lib/ol/ol.js" type="text/javascript"></script>
+<script src="js/mapScript.js"></script>
+<script src="js/analytics.js"></script>
+<script src="lib/colorbox/jquery.colorbox-min.js"></script>
+<link rel="stylesheet" href="css/colorbox.css" type="text/css">
+
+
+
+<script>
+    /* colorbox script TESTING*/
+    $(document).ready(function(){
+        console.log("running the colorbox function");
+        $(".inlineTextBox").colorbox({inline:true, width:"40%"});
+        $("#fwdbwdlink").colorbox({inline:true, width:"40%"});
+        $("#howlink").colorbox({inline:true, width:"70%"});
+        $("#faqlink").colorbox({inline:true, width:"70%"});
+        $("#teamlink").colorbox({inline:true, width:"70%"});
+        $("#plasticlink").colorbox({inline:true, width:"70%"});
+        $("#downloadlink").colorbox({inline:true, width:"70%"});
+        $("#accesslink").colorbox({inline:true, width:"70%"});
+    });
+
+</script>
+
+</body>
+</html>
