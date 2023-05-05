@@ -2,7 +2,7 @@
 
 //The Main Map Class
 
-function Map() {
+function PAMap() {
   this.serverAddress = 'https://plasticadrift.science.uu.nl'
   this.loop = true;
 
@@ -128,7 +128,7 @@ function Map() {
 }
 
 //get index of the heatmap data packet to be fetched
-Map.prototype.getDataIndex = function(lon, lat){
+PAMap.prototype.getDataIndex = function(lon, lat){
   lon = Math.floor(lon);
   lat = Math.floor(lat);
   lat += 90;
@@ -139,7 +139,7 @@ Map.prototype.getDataIndex = function(lon, lat){
 }
 
 //check if a point is on land
-Map.prototype.checkLandPoint = function(index, callback){
+PAMap.prototype.checkLandPoint = function(index, callback){
   var saveLandpoints = function(data){
     this.landpoints = data.split(',');
     var landpointValue = parseInt(this.landpoints[index]);
@@ -158,7 +158,7 @@ Map.prototype.checkLandPoint = function(index, callback){
   } 
 }
 
-Map.prototype.onClick = function(clickEvent) { 
+PAMap.prototype.onClick = function(clickEvent) { 
    //convert the projection of the coordinates
    var lonlat = ol.proj.transform(clickEvent.coordinate, "EPSG:3857", "EPSG:4326");
    this.clickLon = oneDecimalPlace(lonlat[0]);
@@ -168,7 +168,7 @@ Map.prototype.onClick = function(clickEvent) {
  };
 
 // the main function which acquires fetches data and runs heatmap
-Map.prototype.run = function(landpointValue){
+PAMap.prototype.run = function(landpointValue){
     //Check correct landpoint value
     var url_parts = window.location.href.replace(/\/\s*$/,'').split('/');
     if (url_parts.at(-2).includes('nl')) {
@@ -285,7 +285,7 @@ Map.prototype.run = function(landpointValue){
     }, this));
   }
 
-  Map.prototype.getDataURL = function(dataIndex){
+  PAMap.prototype.getDataURL = function(dataIndex){
     if (this.direction == 'fwd'){
       var pad = "00000"
       var str = String(dataIndex)
@@ -298,7 +298,7 @@ Map.prototype.run = function(landpointValue){
 
   //When the center is updated
   //Stay on the middle latitude
-  Map.prototype.centerUpdate = function(event) {
+  PAMap.prototype.centerUpdate = function(event) {
     var oldCenter = event['oldValue'];
     var newCenter = this.map.getView().getCenter();
     //If the delta on latitude if very little: do nothing
@@ -317,16 +317,16 @@ Map.prototype.run = function(landpointValue){
   };
 
   //Saves the center point of the map (longitude only)
-  Map.prototype.saveCenter = function(){
+  PAMap.prototype.saveCenter = function(){
     var cent = this.map.getView().getCenter();
     this.center = oneDecimalPlace(ol.proj.transform(cent, "EPSG:3857", "EPSG:4326")[0]);
   }
 
-  Map.prototype.setCenter = function(centerLon){
+  PAMap.prototype.setCenter = function(centerLon){
     this.map.getView().setCenter(ol.proj.transform([centerLon, 0], "EPSG:4326", "EPSG:3857"))
   }
 
-  Map.prototype.createHeatMapPoint = function(long, lat, data) {
+  PAMap.prototype.createHeatMapPoint = function(long, lat, data) {
     return new ol.Feature({
       name: 'heatPoint',
       geometry: new ol.geom.Point(ol.proj.fromLonLat([long, lat])),
@@ -336,7 +336,7 @@ Map.prototype.run = function(landpointValue){
 
 
 //parses data from the csv file
-Map.prototype.parseData = function(filecontent) {
+PAMap.prototype.parseData = function(filecontent) {
   console.log("parsing data");
   var lines = filecontent.split("\n");
 
@@ -375,7 +375,7 @@ Map.prototype.parseData = function(filecontent) {
     }
   };
 
-      Map.prototype.updateHeatMap = function(year, month) {
+      PAMap.prototype.updateHeatMap = function(year, month) {
   //If we have data for this year/month
   //Clear, update and display
   if (this.heatMapData[year] && this.heatMapData[year][month]) {
@@ -402,14 +402,14 @@ Map.prototype.parseData = function(filecontent) {
   }
 };
 
-Map.prototype.setURL = function() {
+PAMap.prototype.setURL = function() {
   var url = window.location.href.split('?')[0];
   url += '?lat=' + this.markerLat + '&lng=' + this.markerLon
   + '&center=' + this.center + '&startmon=' + this.startMon + '&direction=' + this.direction;
   history.pushState({}, null, url);
 }
 
-Map.prototype.checkURL = function(){
+PAMap.prototype.checkURL = function(){
   var vars = getUrlVars();
   var variables = ['lon', 'lat', 'center', 'startmon', 'direction' ];
   //check all required parameters exist 
@@ -432,22 +432,22 @@ Map.prototype.checkURL = function(){
 
 }
 
-Map.prototype.showWarning = function(message, milliseconds){
+PAMap.prototype.showWarning = function(message, milliseconds){
   $('#warningBox').text(message);
   $('#warningBox').finish().fadeIn("fast").delay(milliseconds).fadeOut("slow");
 }
 
-Map.prototype.clearWarning = function(){
+PAMap.prototype.clearWarning = function(){
   $('#warningBox').finish().fadeOut("fast");
 }
 
-Map.prototype.checkLocalServer = function(){
+PAMap.prototype.checkLocalServer = function(){
   if (!this.serverAddress.startsWith('https')){
     $('.spinner').hide(500);
   }
 }
 
-Map.prototype.setDirection = function(newDirection){
+PAMap.prototype.setDirection = function(newDirection){
   var url_parts = window.location.href.replace(/\/\s*$/,'').split('/');
   if (newDirection == 'fwd'){
     this.direction = 'fwd';
@@ -481,6 +481,6 @@ function getUrlVars() {
 }
 
 //create map
-var themap = new Map();
+var themap = new PAMap();
 themap.checkURL();
 
