@@ -92,18 +92,6 @@
         <div id= "faqBox" class="textbox" >
           <h3> Frequently Asked Questions</h3>
           <p>
-            <i><b>Q:</b> Why does the site say "Sorry, we have no data for that ocean area"?</i>
-          </p>
-          <p>
-            <b>A:</b> The website is built using data from observations only. And like any observations, these are not perfect. We just do not have data from every area in the ocean. This can be seen in the map below, which shows in red the areas where there are not enough surface drifting buoys for our analysis.
-          </p>
-          <p>
-            <img src="img/coverage.jpg">
-          </p>
-          <p>
-            Most areas without sufficient coverage are very near the coastlines. But there are also extensive regions in the Arctic, around Antarctica, in the Indonesian Archipelago, the North Sea and some other marginal seas. The reasons for this poor coverage vary from sea ice to piracy, as can be read in this <a target="_blank" href="http://journals.ametsoc.org/doi/abs/10.1175/JTECH-D-11-00100.1">excellent article</a> (paywalled).
-          </p>
-          <p>
             <i><b>Q:</b> Why does my plastic litter stay in the Mediterranean Sea?</i>
           </p>
           <p>
@@ -126,6 +114,24 @@
           </p>
           <p>
             <b>A:</b> You can download the data from each simulation using the 'Download' button on the top right. If you want something more 'fancy' than what the site can provide, either <a target="_blank" href="https://surfdrive.surf.nl/files/index.php/s/ZhXmLMgqUyT03EX">download the transit matrix</a> and start analysing it yourself, or <a target="_blank" href="https://www.uu.nl/staff/EvanSebille">contact me</a>.
+          </p>
+          <p>
+            <i><b>Q:</b> What does the clumn 'probability' in the csv file that I downloaded mean?</i>
+          </p>
+          <p>
+            <b>A:</b> The probability is the fraction of plastic that is in a certain grid cell at a certain time. For example, if the probability is 0.05, then 5% of the plastic is in that grid cell, and the other 95% is in other grid cells. 
+          </p>
+          <p>
+            <i><b>Q:</b> Why do I see longitude values larger than 180 in the downloaded csv file?</i>
+          </p>
+          <p>
+            <b>A:</b> The longitude values in the csv file are in the range [0, 360]. If you see a value of 200, this is equivalent to a value of -160 (i.e. 160W).
+          </p>
+          <p>
+            <i><b>Q:</b> How can I filter the downloaded data more specifically to a region or country?</i>
+          </p>
+          <p>
+            <b>A:</b> You will have to do that in a spreadsheet program such as Excel. You can filter the data by latitude and longitude, and you can also filter the data by time. For example, if you want to know how much plastic is in the Indian Ocean as a function of time, you need to filter the data by latitude (30S to 30N) and longitude (20E to 120E) and sum over each year. In Excel, you can use the SUMIF() fucntion for this, or use a Pivot Table.
           </p>
         </div>
       </div>
@@ -181,7 +187,7 @@
           </div>
           </p>
           <p>
-            The data is a comma-separated file that could be loaded into for example Excel. It has five columns: the year, the month, the latitude, the longitude and the weight. Each row in the file corresponds to one grid point on the map, and rows with the same year and month data are shown as one snapshot in the animation. The sum of weights for a given year and month is always 1, except for that grid cells where the weight is smaller than 0.00025 are not listed.
+            The data is a comma-separated file that could be loaded into for example Excel. It has five columns: the year, the month, the latitude, the longitude and the probability (the fraction of plastic that is in a certain grid cell at a certain time; see also the FAQ). Each row in the file corresponds to one grid point on the map, and rows with the same year and month data are shown as one snapshot in the animation. The sum of probabilities for a given year and month is always 1, except for that grid cells where the probability is smaller than 0.00025 are not listed.
           </p>
           <p>
             You are welcome and free to use the data in the file above for your scientific work. I just ask that you cite <a href="http://iopscience.iop.org/1748-9326/7/4/044040/">this scientific article</a> in any publications that use the data. Both the data and the paper are licensed under a <a href="http://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution license</a>. Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.

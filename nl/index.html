@@ -92,18 +92,6 @@
         <div id= "faqBox" class="textbox" >
           <h3> Veelgestelde vragen</h3>
           <p>
-            <i><b>Q:</b> Waarom zegt de website "Sorry, we hebben geen data voor deze ocaan-locatie"?</i>
-          </p>
-          <p>
-            <b>A:</b> De website is gebouwd met alleen gegevens uit observaties. En zoals alle waarnemingen zijn deze niet perfect. We hebben niet van elk gebied in de oceaan gegevens. Dit is te zien op de onderstaande kaart, die in rood de gebieden toont waar er niet genoeg drijvende boeien aan de oppervlakte zijn voor onze analyse.
-          </p>
-          <p>
-            <img src="img/coverage.jpg">
-          </p>
-          <p>
-            De meeste gebieden zonder voldoende dekking liggen zeer dicht bij de kustlijnen. Maar er zijn ook uitgestrekte gebieden in het noordpoolgebied, rond Antarctica, in de Indonesische archipel, de Noordzee en enkele andere marginale zeeën. De redenen voor deze slechte dekking variëren van zee-ijs tot piraterij, zoals hierin te lezen is in dit <a target="_blank" href="http://journals.ametsoc.org/doi/abs/10.1175/JTECH-D-11-00100.1">uitstekende wetenschappelijk artikel</a> (paywalled).
-          </p>
-          <p>
             <i><b>Q:</b> Waarom blijft mijn plastic afval in de Middellandse Zee?</i>
           </p>
           <p>
@@ -126,6 +114,24 @@
           </p>
           <p>
             <b>A:</b> Via de knop 'Download' rechtsboven kun je de gegevens van elke simulatie downloaden. Als je iets meer speciaals wilt dan wat de site kan bieden, dan kun je <a target="_blank" href="https://surfdrive.surf.nl/files/index.php/s/ZhXmLMgqUyT03EX">de transitie matrix downloaden</a> en zelf analyseren, of <a target="_blank" href="https://www.uu.nl/staff/EvanSebille">contact opnemen</a>.
+          </p>
+          <p>
+            <i><b>Q:</b> What betekent de kolom 'probability' in de csv file die ik heb gedownload?</i>
+          </p>
+          <p>
+            <b>A:</b> De 'probability' is de fractie van de fractie van het plastic dat op een bepaald moment in een bepaalde rastercel is. Als de probability bijvoorbeeld 0.05 is, dan is 5% van het plastic in die rastercel, en de andere 95% is in andere rastercellen. 
+          </p>
+          <p>
+            <i><b>Q:</b> Waarom zie ik lengtegraden groter dan 180 in de csv file die ik heb gedownload?</i>
+          </p>
+          <p>
+            <b>A:</b> De breedtegraden in de csv file liggen tussen 0 en 360. Als je boijvoorbeeld een waarde van 200 tegenkomt, dan is dat equivalent aan een breedtegraad van -160 (oftewel 160W).
+          </p>
+          <p>
+            <i><b>Q:</b> Hoe kan ik de gedownloade gegevens specifieker filteren op een regio of land?</i>
+          </p>
+          <p>
+            <b>A:</b> Dat zul je moeten doen in een programma zoals Excel. Je kunt de gegevens filteren op lengte- en breedtegraad en je kunt de gegevens ook op tijd filteren. Als je bijvoorbeeld wilt weten hoeveel plastic zich in de Indische Oceaan bevindt als functie van de tijd, moet je de gegevens filteren op breedtegraad (30S tot 30N) en lengtegraad (20E tot 120E) en optellen over elk jaar. In Excel kun je hiervoor de functie SUMIF() gebruiken of een draaitabel gebruiken.
           </p>
         </div>
       </div>
@@ -181,7 +187,7 @@
           </div>
           </p>
           <p>
-            De data staat in een door komma's gescheiden bestand dat in Excel kan worden geladen. Het heeft vijf kolommen: het jaar, de maand, de breedtegraad, de lengtegraad en de hoeveelhied plastic. Elke rij in het bestand komt overeen met &eacute;&eacute;n rasterpunt op de kaart en rijen met dezelfde jaar- en maandgegevens worden als &eacute;&eacute;n momentopname in de animatie weergegeven. De som van gewichten voor een bepaald jaar en maand is altijd 1, behalve dat rastercellen waar het gewicht kleiner is dan 0,00025 niet worden vermeld.
+            De data staat in een door komma's gescheiden bestand dat in Excel kan worden geladen. Het heeft vijf kolommen: het jaar, de maand, de breedtegraad, de lengtegraad en de hoeveelhied plastic ('probability'; de fractie van het plastic dat op een bepaald moment in een bepaalde rastercel is; zie ook de FAQ)). Elke rij in het bestand komt overeen met &eacute;&eacute;n rasterpunt op de kaart en rijen met dezelfde jaar- en maandgegevens worden als &eacute;&eacute;n momentopname in de animatie weergegeven. De som van hoeveelheid plastic voor een bepaald jaar en maand is altijd 1, behalve dat rastercellen waar het gewicht kleiner is dan 0,00025 niet worden vermeld.
           </p>
           <p>
             Je bent van harte welkom om de data van deze website te gebruiken. Ik vraag alleen dat je <a href="http://iopscience.iop.org/1748-9326/7/4/044040/">dit wetenschappelijke artikel</a> citeert in een publicatie die deze data gebruikt. Zowel de data als het artikel zijn gelicenseerd met een <a href="http://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution license</a>. De map tiles zijn van <a href="http://stamen.com">Stamen Design</a>, en gebruikt met een <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. De data van de map tiles zijn van <a href="http://openstreetmap.org">OpenStreetMap</a>, en gebruikt met een <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>. De code van deze pagina staat <a href="https://github.com/adriftICL/adriftOpenLayers"> op GitHub</a>.
