@@ -54,7 +54,7 @@ function Map() {
   this.mapOptions = {
     target: 'mapClass',
     controls: [],
-    interactions: ol.interaction.defaults({
+    interactions: ol.interaction.defaults.defaults({
      doubleClickZoom:false,
      mouseWheelZoom:false,
      pinchRotate:false,
