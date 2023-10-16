@@ -65,26 +65,26 @@ function PAMap() {
     new ol.layer.Tile({
       //source: new ol.source.MapQuest({layer: 'sat'})
       //source: new ol.source.OSM({ wrapX: true })
-      source: new ol.source.Stamen({layer: 'watercolor'})
+      // source: new ol.source.Stamen({layer: 'watercolor'})
       //source: new ol.source.MapQuest({layer: 'osm'})
-      /*source: new ol.source.OSM({
+      source: new ol.source.OSM({
         url: 'tiles/watercolor/{z}/{x}/{y}.jpg'
-      }) */ 
+      })
 
       }),
     this.markerLayer
     ],
     view: new ol.View({
-     center: ol.proj.fromLonLat([0.0, 0]), 
+     center: ol.proj.fromLonLat([0.0, 0]),
      zoom: 2.8,
      /*extent: maxExtent */
-     /* resolution: 30000 */ 
+     /* resolution: 30000 */
    }),
   }
 
   this.map = new ol.Map(this.mapOptions);
   this.extent = [-70, 60 , 60, -50]; //[lon, lat, lon, lat]
-  this.extent = ol.extent.applyTransform(this.extent, ol.proj.getTransform("EPSG:4326", "EPSG:3857")); 
+  this.extent = ol.extent.applyTransform(this.extent, ol.proj.getTransform("EPSG:4326", "EPSG:3857"));
   this.map.getView().fit(this.extent, this.map.getSize());
 
 
@@ -155,10 +155,10 @@ PAMap.prototype.checkLandPoint = function(index, callback){
   } else {
     var landpointValue = parseInt(this.landpoints[index]);
     callback(landpointValue);
-  } 
+  }
 }
 
-PAMap.prototype.onClick = function(clickEvent) { 
+PAMap.prototype.onClick = function(clickEvent) {
    //convert the projection of the coordinates
    var lonlat = ol.proj.transform(clickEvent.coordinate, "EPSG:3857", "EPSG:4326");
    this.clickLon = oneDecimalPlace(lonlat[0]);
@@ -215,7 +215,7 @@ PAMap.prototype.run = function(landpointValue){
     if (this.req != null){
       this.req.abort();
     }
-    
+
     this.setURL();
 
     //start the loading icon
@@ -238,7 +238,7 @@ PAMap.prototype.run = function(landpointValue){
 
     var query = this.getDataURL(dataIndex);
     console.log(query);
-    
+
     //Update the download-link text
     var url_parts = window.location.href.replace(/\/\s*$/,'').split('/');
     if (url_parts.at(-2).includes('nl')) {
@@ -412,7 +412,7 @@ PAMap.prototype.setURL = function() {
 PAMap.prototype.checkURL = function(){
   var vars = getUrlVars();
   var variables = ['lon', 'lat', 'center', 'startmon', 'direction' ];
-  //check all required parameters exist 
+  //check all required parameters exist
   if ($.isEmptyObject(vars)){
     return;
   }
