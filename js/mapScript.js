@@ -83,7 +83,7 @@ function PAMap() {
   }
 
   this.map = new ol.Map(this.mapOptions);
-  this.extent = [-180, 70 , 180, -60]; //[lon, lat, lon, lat]
+  this.extent = [-180, 75 , 180, -65]; //[lon, lat, lon, lat]
   this.extent = ol.extent.applyTransform(this.extent, ol.proj.getTransform("EPSG:4326", "EPSG:3857"));
   this.map.getView().fit(this.extent, this.map.getSize());
 
